@@ -3213,7 +3213,7 @@ var creator_debug = false ;
 function console_log ( msg )
 {
   if (creator_debug) {
-      console_log(msg) ;
+      console.log(msg) ;
   }
 }
 
