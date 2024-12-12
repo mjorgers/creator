@@ -19,12 +19,13 @@
  *
  */
 
-
-function bi_intToBigInt ( int_value, int_base )
-{
-  return BigInt(parseInt(int_value) >>> 0, int_base) ;
+function bi_intToBigInt(int_value, int_base) {
+  // Convert input to BigInt, respecting the base
+  const bigIntValue = BigInt(int_value.toString(int_base || 10));
+  
+  // Normalize to unsigned integer
+  return BigInt.asUintN(32, bigIntValue);
 }
-
 
 function bi_floatToBigInt ( float_value )
 {
@@ -111,7 +112,7 @@ function register_value_serialize( architecture )
     for (var j=0; j < architecture.components[i].elements.length; j++)
     {
       if (architecture.components[i].type != "fp_registers"){
-        aux_architecture.components[i].elements[j].value = parseInt(architecture.components[i].elements[j].value);
+        aux_architecture.components[i].elements[j].value = architecture.components[i].elements[j].value.toString();
       }
       else{
         aux_architecture.components[i].elements[j].value = bi_BigIntTofloat(architecture.components[i].elements[j].value);
@@ -120,7 +121,7 @@ function register_value_serialize( architecture )
       if (architecture.components[i].double_precision !== true)
       {
         if (architecture.components[i].type != "fp_registers"){
-          aux_architecture.components[i].elements[j].default_value = parseInt(architecture.components[i].elements[j].default_value);
+          aux_architecture.components[i].elements[j].default_value = architecture.components[i].elements[j].default_value.toString();
         }
         else{
           aux_architecture.components[i].elements[j].default_value = bi_BigIntTofloat(architecture.components[i].elements[j].default_value);

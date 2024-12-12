@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "MiniRISC Creator",
+            "skipFiles": ["<node_internals>/**"],
+            "program": "${workspaceFolder}/creator.js",
+            "args": [
+                "-a", "./architecture/miniRISC.json",
+                "-s", "./test.s",
+                "-o", "normal"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Creator",
+            "skipFiles": ["<node_internals>/**"],
+            "program": "${workspaceFolder}/creator.js",
+            "args": [
+                "-a", "./architecture/RISC_V_RV32IMFD.json",
+                "-s", "./test/riscv/correct/examples/test_riscv_example_002.s"
+            ]
+        }
+        
+    ]
+}

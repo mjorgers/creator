@@ -105,7 +105,7 @@ function readRegister ( indexComp, indexElem, register_type )
   if ((architecture.components[indexComp].type == "ctrl_registers") ||
       (architecture.components[indexComp].type == "int_registers"))
   {
-    console_log(parseInt(architecture.components[indexComp].elements[indexElem].value));
+    console_log(architecture.components[indexComp].elements[indexElem].value);
     return parseInt(architecture.components[indexComp].elements[indexElem].value);
   }
 
@@ -176,7 +176,8 @@ function writeRegister ( value, indexComp, indexElem, register_type )
 
         throw packExecute(true, 'The register '+ architecture.components[indexComp].elements[indexElem].name.join(' | ') +' cannot be written', 'danger', null);
       }
-
+      // value should always be a bigint (?)
+      // calling the conversion function doesn't do any harm anyway
       architecture.components[indexComp].elements[indexElem].value = bi_intToBigInt(value,10);
       creator_callstack_writeRegister(indexComp, indexElem);
 
