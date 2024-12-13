@@ -124,6 +124,18 @@
               "read",
               "write"
             ]
+          },
+          {
+            "name": [
+              "x5"
+            ],
+            "nbits": "64",
+            "value": "0",
+            "default_value": "0",
+            "properties": [
+              "read",
+              "write"
+            ]
           }
         ]
       }
@@ -179,7 +191,7 @@
             "valueField": "000"
           }
         ],
-        "definition": "rd = BigInt(rs2) + BigInt(rs1)",
+        "definition": "rd = rs2 + rs1",
         "separated": [
           false,
           false,
@@ -233,7 +245,7 @@
             "valueField": "000"
           }
         ],
-        "definition": "rd = BigInt(rs1) + BigInt(inm);",
+        "definition": "rd = rs1 + inm;",
         "separated": [
           false,
           false,
@@ -272,7 +284,7 @@
             "stopbit": 7
           }
         ],
-        "definition": "rd = BigInt(inm) << 12n;",
+        "definition": "rd = inm << 12n;",
         "separated": [
           false,
           false,
@@ -331,7 +343,7 @@
             "valueField": "000000"
           }
         ],
-        "definition": "if (shamt > 0) {rd = capi_int2uint(BigInt(rs1) << BigInt(shamt));}",
+        "definition": "if (shamt > 0) {rd = capi_int2uint(rs1 << shamt);}",
         "separated": [
           false,
           false,
@@ -385,7 +397,7 @@
             "valueField": "110"
           }
         ],
-        "definition": "rd = BigInt(rs1) | BigInt(inm);",
+        "definition": "rd = rs1 | inm;",
         "separated": [
           false,
           false,
@@ -396,6 +408,28 @@
         "help": ""
       }
     
+    ],
+    "pseudoinstructions":[
+      {
+        "name": "mv",
+        "signature_definition": "mv F0 F1",
+        "signature": "mv,INT-Reg,INT-Reg",
+        "signatureRaw": "mv reg1 reg2",
+        "help": "",
+        "properties": [],
+        "nwords": 1,
+        "fields": [
+          {
+            "name": "reg1",
+            "type": "INT-Reg"
+          },
+          {
+            "name": "reg2",
+            "type": "INT-Reg"
+          }
+        ],
+        "definition": "addi reg1 reg2 0;"
+      }
     ],
     "directives": [
       {

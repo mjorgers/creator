@@ -325,6 +325,8 @@ function execute_instruction ( )
       var var_writings_definitions      = {};
 
       // Generate all registers, values, etc. readings
+      // FIX: THIS WILL BREAK WITH FLOATING POINT ARITHMETIC DUE TO
+      // CONVERSION TO BIGINT
       for (var i = 1; i < signatureRawParts.length; i++)
       {
         if (signatureParts[i] == "INT-Reg" || signatureParts[i] == "SFP-Reg" || signatureParts[i] == "DFP-Reg" || signatureParts[i] == "Ctrl-Reg")
@@ -335,8 +337,8 @@ function execute_instruction ( )
             {
               if (architecture.components[j].elements[z].name.includes(instructionExecParts[i]))
               {
-                var_readings_definitions[signatureRawParts[i]]      = "var " + signatureRawParts[i] + "      = readRegister ("+j+" ,"+z+", \""+ signatureParts[i] + "\");\n"
-                var_readings_definitions_prev[signatureRawParts[i]] = "var " + signatureRawParts[i] + "_prev = readRegister ("+j+" ,"+z+", \""+ signatureParts[i] + "\");\n"
+                var_readings_definitions[signatureRawParts[i]]      = "var " + signatureRawParts[i] + "      = BigInt(readRegister ("+j+" ,"+z+", \""+ signatureParts[i] + "\"));\n"
+                var_readings_definitions_prev[signatureRawParts[i]] = "var " + signatureRawParts[i] + "_prev = BigInt(readRegister ("+j+" ,"+z+", \""+ signatureParts[i] + "\"));\n"
                 var_readings_definitions_name[signatureRawParts[i]] = "var " + signatureRawParts[i] + "_name = '" + instructionExecParts[i] + "';\n";
 
                 re = new RegExp( "(?:\\W|^)(((" + signatureRawParts[i] +") *=)[^=])", "g");
@@ -379,7 +381,7 @@ function execute_instruction ( )
           }
           /////////
 
-          var_readings_definitions[signatureRawParts[i]] = "var " + signatureRawParts[i] + " = " + instructionExecParts[i] + ";\n";
+          var_readings_definitions[signatureRawParts[i]] = "var " + signatureRawParts[i] + " = BigInt(" + instructionExecParts[i] + ");\n";
         }
       }
 
