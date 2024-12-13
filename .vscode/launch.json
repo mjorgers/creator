@@ -23,6 +23,28 @@
                 "-a", "./architecture/RISC_V_RV32IMFD.json",
                 "-s", "./test/riscv/correct/examples/test_riscv_example_002.s"
             ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "miniRISC16 Creator",
+            "skipFiles": ["<node_internals>/**"],
+            "program": "${workspaceFolder}/creator.js",
+            "args": [
+                "-a", "./architecture/miniRISC16.json",
+                "-s", "./test.s"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "miniRISC64 Creator",
+            "skipFiles": ["<node_internals>/**"],
+            "program": "${workspaceFolder}/creator.js",
+            "args": [
+                "-a", "./architecture/miniRISC64.json",
+                "-s", "./test.s"
+            ]
         }
         
     ]

@@ -24,7 +24,11 @@ function bi_intToBigInt(int_value, int_base) {
   const bigIntValue = BigInt(int_value.toString(int_base || 10));
   
   // Normalize to unsigned integer
-  return BigInt.asUintN(32, bigIntValue);
+  // This has to be the size of the register it's saving to.
+  // If the number is positive it doesn't matter, but when converting
+  // negative numbers, if the value is not set to the size of the register
+  // it will break.
+  return BigInt.asUintN(64, bigIntValue); 
 }
 
 function bi_floatToBigInt ( float_value )

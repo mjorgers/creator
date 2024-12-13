@@ -106,7 +106,7 @@ function readRegister ( indexComp, indexElem, register_type )
       (architecture.components[indexComp].type == "int_registers"))
   {
     console_log(architecture.components[indexComp].elements[indexElem].value);
-    return parseInt(architecture.components[indexComp].elements[indexElem].value);
+    return bi_intToBigInt(architecture.components[indexComp].elements[indexElem].value);
   }
 
   if (architecture.components[indexComp].type == "fp_registers")

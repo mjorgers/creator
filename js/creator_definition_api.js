@@ -522,12 +522,12 @@ function capi_float322uint ( value )
 
 function capi_int2uint ( value )
 {
-	return (value >>> 0) ;
+    return BigInt.asUintN(64, BigInt(value));
 }
 
 function capi_uint2int ( value )
 {
-	return (value >> 0) ;
+    return BigInt.asIntN(64, BigInt(value));
 }
 
 function capi_uint2float64 ( value0, value1 )

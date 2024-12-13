@@ -296,7 +296,7 @@ function execute_instruction ( )
     //Increase PC
     var pc_reg = crex_findReg_bytag ("program_counter");
     word_size = parseInt(architecture.arch_conf[1].value) / 8;
-    writeRegister(readRegister(pc_reg.indexComp, pc_reg.indexElem) + (nwords * word_size), 0,0);
+    writeRegister(readRegister(pc_reg.indexComp, pc_reg.indexElem) + BigInt(nwords * word_size), 0,0);
     console_log(auxDef);
 
 

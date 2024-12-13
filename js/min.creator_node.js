@@ -19,18 +19,16 @@
  *
  */
 
-    
-function bi_intToBigInt2 ( int_value, int_base )
-{
-  return BigInt(parseInt(int_value) >>> 0, int_base) ;
-}
-
 function bi_intToBigInt(int_value, int_base) {
   // Convert input to BigInt, respecting the base
   const bigIntValue = BigInt(int_value.toString(int_base || 10));
   
-  // Normalize to 64-bit unsigned integer
-  return BigInt.asUintN(32, bigIntValue);
+  // Normalize to unsigned integer
+  // This has to be the size of the register it's saving to.
+  // If the number is positive it doesn't matter, but when converting
+  // negative numbers, if the value is not set to the size of the register
+  // it will break.
+  return BigInt.asUintN(64, bigIntValue); 
 }
 
 function bi_floatToBigInt ( float_value )
@@ -1523,12 +1521,12 @@ function capi_float322uint ( value )
 
 function capi_int2uint ( value )
 {
-	return (value >>> 0) ;
+    return BigInt.asUintN(64, BigInt(value));
 }
 
 function capi_uint2int ( value )
 {
-	return (value >> 0) ;
+    return BigInt.asIntN(64, BigInt(value));
 }
 
 function capi_uint2float64 ( value0, value1 )
@@ -1921,7 +1919,7 @@ function readRegister ( indexComp, indexElem, register_type )
       (architecture.components[indexComp].type == "int_registers"))
   {
     console_log(architecture.components[indexComp].elements[indexElem].value);
-    return parseInt(architecture.components[indexComp].elements[indexElem].value);
+    return bi_intToBigInt(architecture.components[indexComp].elements[indexElem].value);
   }
 
   if (architecture.components[indexComp].type == "fp_registers")
@@ -3216,7 +3214,7 @@ function load_arch_select ( cfg ) //TODO: repeated?
 // console_log
 //
 
-var creator_debug = false ;
+var creator_debug = true ;
 
 function console_log ( msg )
 {
@@ -7034,7 +7032,7 @@ function execute_instruction ( )
     //Increase PC
     var pc_reg = crex_findReg_bytag ("program_counter");
     word_size = parseInt(architecture.arch_conf[1].value) / 8;
-    writeRegister(readRegister(pc_reg.indexComp, pc_reg.indexElem) + (nwords * word_size), 0,0);
+    writeRegister(readRegister(pc_reg.indexComp, pc_reg.indexElem) + BigInt(nwords * word_size), 0,0);
     console_log(auxDef);
 
 
