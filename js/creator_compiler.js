@@ -162,7 +162,7 @@ function load_arch_select ( cfg ) //TODO: repeated?
 // console_log
 //
 
-var creator_debug = true ;
+var creator_debug = false ;
 
 function console_log ( msg )
 {

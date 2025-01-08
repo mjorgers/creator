@@ -91,8 +91,8 @@
             "sp"
           ],
           "nbits": "32",
-          "value": "268435452",
-          "default_value": "268435452",
+          "value": "268435453",
+          "default_value": "268435453",
           "properties": [
             "read",
             "write",
@@ -1188,7 +1188,7 @@
           "stopbit": 7
         }
       ],
-      "definition": "rd = PC + (inm << 12);",
+      "definition": "rd = PC + (inm << 12n);",
       "separated": [
         false,
         false,
@@ -1245,7 +1245,7 @@
           "stopbit": 15
         }
       ],
-      "definition": "if (rs1 === rs2)\n PC = PC + ((inm << 16) >> 14); ",
+      "definition": "if (rs1 === rs2)\n PC = PC + ((inm << 16n) >> 14n); ",
       "separated": [
         false,
         false,
@@ -1304,7 +1304,7 @@
           "valueField": "101"
         }
       ],
-      "definition": "if (capi_uint2int(rs1) >= capi_uint2int(rs2))\n PC = PC + ((inm << 16) >> 14);",
+      "definition": "if (capi_uint2int(rs1) >= capi_uint2int(rs2))\n PC = PC + ((inm << 16n) >> 14n);",
       "separated": [
         false,
         true,
@@ -1363,7 +1363,7 @@
           "valueField": "111"
         }
       ],
-      "definition": "if (capi_int2uint(rs1) > capi_int2uint(rs2))\n PC = PC + ((inm << 16) >> 14);",
+      "definition": "if (capi_int2uint(rs1) > capi_int2uint(rs2))\n PC = PC + ((inm << 16n) >> 14n);",
       "separated": [
         false,
         true,
@@ -1422,7 +1422,7 @@
           "valueField": "100"
         }
       ],
-      "definition": "if (capi_uint2int(rs1) < capi_uint2int(rs2))\n PC = PC + ((inm << 16) >> 14);",
+      "definition": "if (capi_uint2int(rs1) < capi_uint2int(rs2))\n PC = PC + ((inm << 16n) >> 14n);",
       "separated": [
         false,
         true,
@@ -1481,7 +1481,7 @@
           "valueField": "110"
         }
       ],
-      "definition": "if (capi_int2uint(rs1) < capi_int2uint(rs2))\n PC = PC + ((inm << 16) >> 14);",
+      "definition": "if (capi_int2uint(rs1) < capi_int2uint(rs2))\n PC = PC + ((inm << 16n) >> 14n);",
       "separated": [
         false,
         true,
@@ -1540,7 +1540,7 @@
           "valueField": "001"
         }
       ],
-      "definition": "if (rs1 !== rs2)\n PC = PC + ((inm << 16) >> 14);",
+      "definition": "if (rs1 !== rs2)\n PC = PC + ((inm << 16n) >> 14n);",
       "separated": [
         false,
         true,
@@ -1600,7 +1600,7 @@
           "stopbit": 7
         }
       ],
-      "definition": "if (rs2 != 0)\n { rd = Math.trunc(((rs1 >> 0) / (rs2 >> 0))); }\n else { capi_raise('Division by zero not allowed'); }",
+      "definition": "if (rs2 != 0)\n { rd = ((rs1 >> 0n) / (rs2 >> 0n)); }\n else { capi_raise('Division by zero not allowed'); }",
       "separated": [
         false,
         false,
@@ -1636,7 +1636,7 @@
           "valueField": "001100"
         }
       ],
-      "definition": "switch(a7){\ncase 1:\ncapi_print_int('a0');\nbreak;\ncase 2:\ncapi_print_float('fa0');\nbreak;\ncase 3:\ncapi_print_double('fa0');\nbreak;\ncase 4:\ncapi_print_string('a0');\nbreak;\ncase 5:\ncapi_read_int('a0');\nbreak;\ncase 6:\ncapi_read_float('fa0');\nbreak;\ncase 7:\ncapi_read_double('fa0');\nbreak;\ncase 8:\ncapi_read_string('a0', 'a1');\nbreak;\ncase 9:\ncapi_sbrk('a0', 'a0');\nbreak;\ncase 10:\ncapi_exit();\nbreak;\ncase 11:\ncapi_print_char('a0');\nbreak;\ncase 12:\ncapi_read_char('a0');\nbreak;\n}",
+      "definition": "switch(a7){\ncase 1n:\ncapi_print_int('a0');\nbreak;\ncase 2n:\ncapi_print_float('fa0');\nbreak;\ncase 3n:\ncapi_print_double('fa0');\nbreak;\ncase 4n:\ncapi_print_string('a0');\nbreak;\ncase 5n:\ncapi_read_int('a0');\nbreak;\ncase 6n:\ncapi_read_float('fa0');\nbreak;\ncase 7n:\ncapi_read_double('fa0');\nbreak;\ncase 8n:\ncapi_read_string('a0', 'a1');\nbreak;\ncase 9n:\ncapi_sbrk('a0', 'a0');\nbreak;\ncase 10n:\ncapi_exit();\nbreak;\ncase 11n:\ncapi_print_char('a0');\nbreak;\ncase 12n:\ncapi_read_char('a0');\nbreak;\n}",
       "help": ""
     },
     {
@@ -4729,7 +4729,7 @@
           "valueField": "000"
         }
       ],
-      "definition": "rd = PC;\n PC = (rs1+inm)&~1;\n capi_callconv_end(); capi_drawstack_end(PC);",
+      "definition": "rd = PC;\n PC = (rs1+inm)&~1n;\n capi_callconv_end(); capi_drawstack_end(PC);",
       "separated": [
         false,
         false,
@@ -4979,7 +4979,7 @@
           "stopbit": 7
         }
       ],
-      "definition": "rd = inm << 12;",
+      "definition": "rd = inm << 12n;",
       "separated": [
         false,
         false,

@@ -49,7 +49,7 @@ function capi_arithmetic_overflow ( op1, op2, res_u )
 function capi_bad_align ( addr, type )
 {
 	size = creator_memory_type2size(type) ;
-	return (addr % size !== 0) ; // && (architecture.properties.memory_align == true) ; <- FUTURE-WORK
+	return (addr % size !== 0n) ; // && (architecture.properties.memory_align == true) ; <- FUTURE-WORK
 }
 
 
@@ -522,12 +522,12 @@ function capi_float322uint ( value )
 
 function capi_int2uint ( value )
 {
-    return BigInt.asUintN(64, BigInt(value));
+    return BigInt.asUintN(register_size_bits, BigInt(value));
 }
 
 function capi_uint2int ( value )
 {
-    return BigInt.asIntN(64, BigInt(value));
+    return BigInt.asIntN(register_size_bits, BigInt(value));
 }
 
 function capi_uint2float64 ( value0, value1 )

@@ -325,36 +325,59 @@ function execute_instruction ( )
       var var_writings_definitions      = {};
 
       // Generate all registers, values, etc. readings
-      // FIX: THIS WILL BREAK WITH FLOATING POINT ARITHMETIC DUE TO
-      // CONVERSION TO BIGINT
+      // Integer registers use BigInt type
+      // Floating point registers use Number type
+      // TODO: refactor this code
       for (var i = 1; i < signatureRawParts.length; i++)
       {
-        if (signatureParts[i] == "INT-Reg" || signatureParts[i] == "SFP-Reg" || signatureParts[i] == "DFP-Reg" || signatureParts[i] == "Ctrl-Reg")
-        {
-          for (var j = 0; j < architecture.components.length; j++)
+        if (signatureParts[i] == "INT-Reg" || signatureParts[i] == "Ctrl-Reg")
           {
-            for (var z = architecture.components[j].elements.length-1; z >= 0; z--)
+            for (var j = 0; j < architecture.components.length; j++)
             {
-              if (architecture.components[j].elements[z].name.includes(instructionExecParts[i]))
+              for (var z = architecture.components[j].elements.length-1; z >= 0; z--)
               {
-                var_readings_definitions[signatureRawParts[i]]      = "var " + signatureRawParts[i] + "      = BigInt(readRegister ("+j+" ,"+z+", \""+ signatureParts[i] + "\"));\n"
-                var_readings_definitions_prev[signatureRawParts[i]] = "var " + signatureRawParts[i] + "_prev = BigInt(readRegister ("+j+" ,"+z+", \""+ signatureParts[i] + "\"));\n"
-                var_readings_definitions_name[signatureRawParts[i]] = "var " + signatureRawParts[i] + "_name = '" + instructionExecParts[i] + "';\n";
-
-                re = new RegExp( "(?:\\W|^)(((" + signatureRawParts[i] +") *=)[^=])", "g");
-                //If the register is in the left hand than '=' then write register always
-                if(auxDef.search(re) != -1){
-                  var_writings_definitions[signatureRawParts[i]]  = "writeRegister("+ signatureRawParts[i] +", "+j+", "+z+", \""+ signatureParts[i] + "\");\n";
-                }
-                //Write register only if value is diferent
-                else{
-                  var_writings_definitions[signatureRawParts[i]]  = "if(" + signatureRawParts[i] + " != " + signatureRawParts[i] + "_prev)" +
-                                                                    " { writeRegister("+ signatureRawParts[i]+" ,"+j+" ,"+z+", \""+ signatureParts[i] + "\"); }\n";
+                if (architecture.components[j].elements[z].name.includes(instructionExecParts[i]))
+                {
+                  var_readings_definitions[signatureRawParts[i]]      = "var " + signatureRawParts[i] + "      = BigInt(readRegister ("+j+" ,"+z+", \""+ signatureParts[i] + "\"));\n"
+                  var_readings_definitions_prev[signatureRawParts[i]] = "var " + signatureRawParts[i] + "_prev = BigInt(readRegister ("+j+" ,"+z+", \""+ signatureParts[i] + "\"));\n"
+                  var_readings_definitions_name[signatureRawParts[i]] = "var " + signatureRawParts[i] + "_name = '" + instructionExecParts[i] + "';\n";
+  
+                  re = new RegExp( "(?:\\W|^)(((" + signatureRawParts[i] +") *=)[^=])", "g");
+                  if(auxDef.search(re) != -1){
+                    var_writings_definitions[signatureRawParts[i]]  = "writeRegister("+ signatureRawParts[i] +", "+j+", "+z+", \""+ signatureParts[i] + "\");\n";
+                  }
+                  else{
+                    var_writings_definitions[signatureRawParts[i]]  = "if(" + signatureRawParts[i] + " != " + signatureRawParts[i] + "_prev)" +
+                                                                      " { writeRegister("+ signatureRawParts[i]+" ,"+j+" ,"+z+", \""+ signatureParts[i] + "\"); }\n";
+                  }
                 }
               }
             }
           }
-        }
+          else if (signatureParts[i] == "SFP-Reg" || signatureParts[i] == "DFP-Reg") 
+            {
+              for (var j = 0; j < architecture.components.length; j++)
+              {
+                for (var z = architecture.components[j].elements.length-1; z >= 0; z--)
+                {
+                  if (architecture.components[j].elements[z].name.includes(instructionExecParts[i]))
+                  {
+                    var_readings_definitions[signatureRawParts[i]]      = "var " + signatureRawParts[i] + "      = Number(readRegister ("+j+" ,"+z+", \""+ signatureParts[i] + "\"));\n"
+                    var_readings_definitions_prev[signatureRawParts[i]] = "var " + signatureRawParts[i] + "_prev = Number(readRegister ("+j+" ,"+z+", \""+ signatureParts[i] + "\"));\n"
+                    var_readings_definitions_name[signatureRawParts[i]] = "var " + signatureRawParts[i] + "_name = '" + instructionExecParts[i] + "';\n";
+    
+                    re = new RegExp( "(?:\\W|^)(((" + signatureRawParts[i] +") *=)[^=])", "g");
+                    if(auxDef.search(re) != -1){
+                      var_writings_definitions[signatureRawParts[i]]  = "writeRegister("+ signatureRawParts[i] +", "+j+", "+z+", \""+ signatureParts[i] + "\");\n";
+                    }
+                    else{
+                      var_writings_definitions[signatureRawParts[i]]  = "if(Math.abs(" + signatureRawParts[i] + " - " + signatureRawParts[i] + "_prev) > Number.EPSILON)" +
+                                                                        " { writeRegister("+ signatureRawParts[i]+" ,"+j+" ,"+z+", \""+ signatureParts[i] + "\"); }\n";
+                    }
+                  }
+                }
+              }
+            }
         else{
 
           /////////TODO: inm-signed
@@ -381,7 +404,11 @@ function execute_instruction ( )
           }
           /////////
 
-          var_readings_definitions[signatureRawParts[i]] = "var " + signatureRawParts[i] + " = BigInt(" + instructionExecParts[i] + ");\n";
+          if (signatureParts[i].includes("float")) {
+            var_readings_definitions[signatureRawParts[i]] = "var " + signatureRawParts[i] + " = Number(" + instructionExecParts[i] + ");\n";
+          } else {
+            var_readings_definitions[signatureRawParts[i]] = "var " + signatureRawParts[i] + " = BigInt(" + instructionExecParts[i] + ");\n";
+          }
         }
       }
 
