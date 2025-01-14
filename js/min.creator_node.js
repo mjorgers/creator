@@ -3216,7 +3216,7 @@ function load_arch_select ( cfg ) //TODO: repeated?
 // console_log
 //
 
-var creator_debug = false ;
+var creator_debug = true ;
 
 function console_log ( msg )
 {
@@ -7202,6 +7202,17 @@ function execute_instruction ( )
                   "instructions[" + execution_index + "]:\n" +
                    auxDef + "\n" +
                   " ................................. ");
+
+
+      console_log(" will eval:\n " +
+        "instructions[" + execution_index + "].preload = function(elto) { " +
+           "   try {\n" +
+               auxDef.replace(/this./g,"elto.") + "\n" +
+           "   }\n" +
+           "   catch(e){\n" +
+           "     throw e;\n" +
+           "   }\n" +
+           "}; ") ;
 
       // preload instruction
       eval("instructions[" + execution_index + "].preload = function(elto) { " +

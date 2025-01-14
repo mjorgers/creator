@@ -1530,7 +1530,68 @@
             "valueField": "000"
           }
         ],
-        "definition": "rd = BigInt.asIntN(64, BigInt.asIntN(32, rs1) + BigInt.asIntN(32, rs2));",
+        "definition": "const temp = (BigInt(rs1) + BigInt(rs2)) & 0xFFFFFFFFn; rd = temp & 0x80000000n ? temp | 0xFFFFFFFF00000000n : temp;",
+        "separated": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "help": ""
+      },
+      {
+        "name": "subw",
+        "type": "Arithmetic integer",
+        "signature_definition": "F0 F3 F2 F1",
+        "signature": "subw,INT-Reg,INT-Reg,INT-Reg",
+        "signatureRaw": "subw rd rs1 rs2",
+        "co": "0111011",
+        "cop": "0000000000",
+        "nwords": 1,
+        "clk_cycles": 1,
+        "fields": [
+          {
+            "name": "subw",
+            "type": "co",
+            "startbit": 6,
+            "stopbit": 0
+          },
+          {
+            "name": "rs2",
+            "type": "INT-Reg",
+            "startbit": 24,
+            "stopbit": 20
+          },
+          {
+            "name": "rs1",
+            "type": "INT-Reg",
+            "startbit": 19,
+            "stopbit": 15
+          },
+          {
+            "name": "rd",
+            "type": "INT-Reg",
+            "startbit": 11,
+            "stopbit": 7
+          },
+          {
+            "name": "cop",
+            "type": "cop",
+            "startbit": 31,
+            "stopbit": 25,
+            "valueField": "0000000"
+          },
+          {
+            "name": "cop2",
+            "type": "cop",
+            "startbit": 14,
+            "stopbit": 12,
+            "valueField": "000"
+          }
+        ],
+        "definition": "const temp = (BigInt(rs1) + BigInt(rs2)) & 0xFFFFFFFFn; rd = temp & 0x80000000n ? temp | 0xFFFFFFFF00000000n : temp;",
         "separated": [
           false,
           false,
@@ -1784,6 +1845,302 @@
         false
       ],
       "help": ""
+    },
+    {
+      "name": "addiw",
+      "type": "Arithmetic integer",
+      "signature_definition": "F0 F3 F2 F1",
+      "signature": "addiw,INT-Reg,INT-Reg,inm-signed",
+      "signatureRaw": "addiw rd rs1 inm",
+      "co": "0010011",
+      "cop": "000",
+      "nwords": 1,
+      "clk_cycles": 1,
+      "fields": [
+        {
+          "name": "addiw",
+          "type": "co",
+          "startbit": 6,
+          "stopbit": 0
+        },
+        {
+          "name": "inm",
+          "type": "inm-signed",
+          "startbit": 31,
+          "stopbit": 20
+        },
+        {
+          "name": "rs1",
+          "type": "INT-Reg",
+          "startbit": 19,
+          "stopbit": 15
+        },
+        {
+          "name": "rd",
+          "type": "INT-Reg",
+          "startbit": 11,
+          "stopbit": 7
+        },
+        {
+          "name": "cop",
+          "type": "cop",
+          "startbit": "14",
+          "stopbit": "12",
+          "valueField": "000"
+        }
+      ],
+      "definition": "const temp = ((BigInt(rs1) & 0xFFFFFFFFn) + BigInt(inm)) & 0xFFFFFFFFn; rd = temp & 0x80000000n ? temp | 0xFFFFFFFF00000000n : temp;",
+      "separated": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "help": ""
+    },
+    {
+      "name": "slliw",
+      "type": "Arithmetic integer",
+      "signature_definition": "F0 F1 F3 F4",
+      "signature": "slliw,INT-Reg,INT-Reg,inm-unsigned",
+      "signatureRaw": "slliw rd rs1 shamt",
+      "co": "0011011",
+      "cop": "000000001",
+      "nwords": 1,
+      "clk_cycles": 1,
+      "fields": [
+        {
+          "name": "slliw",
+          "type": "co",
+          "startbit": 6,
+          "stopbit": 0
+        },
+        {
+          "name": "rd",
+          "type": "INT-Reg",
+          "startbit": 11,
+          "stopbit": 7
+        },
+        {
+          "name": "cop2",
+          "type": "cop",
+          "startbit": 14,
+          "stopbit": 12,
+          "valueField": "001"
+        },
+        {
+          "name": "rs1",
+          "type": "INT-Reg",
+          "startbit": 19,
+          "stopbit": 15
+        },
+        {
+          "name": "shamt",
+          "type": "inm-unsigned",
+          "startbit": 25,
+          "stopbit": 20
+        },
+        {
+          "name": "cop",
+          "type": "cop",
+          "startbit": 31,
+          "stopbit": 26,
+          "valueField": "000000"
+        }
+      ],
+      "definition": "if (shamt > 0) {const temp = ((BigInt(rs1) & 0xFFFFFFFFn) << BigInt(shamt)) & 0xFFFFFFFFn; rd = temp & 0x80000000n ? temp | 0xFFFFFFFF00000000n : temp; rd = capi_int2uint(rd);}",
+      "separated": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "help": ""
+    },
+    {
+      "name": "srliw",
+      "type": "Arithmetic integer",
+      "signature_definition": "F0 F1 F3 F4",
+      "signature": "srliw,INT-Reg,INT-Reg,inm-unsigned",
+      "signatureRaw": "srliw rd rs1 shamt",
+      "co": "0011011",
+      "cop": "000000101",
+      "nwords": 1,
+      "clk_cycles": 1,
+      "fields": [
+        {
+          "name": "srliw",
+          "type": "co",
+          "startbit": 6,
+          "stopbit": 0
+        },
+        {
+          "name": "rd",
+          "type": "INT-Reg",
+          "startbit": 11,
+          "stopbit": 7
+        },
+        {
+          "name": "cop2",
+          "type": "cop",
+          "startbit": 14,
+          "stopbit": 12,
+          "valueField": "101"
+        },
+        {
+          "name": "rs1",
+          "type": "INT-Reg",
+          "startbit": 19,
+          "stopbit": 15
+        },
+        {
+          "name": "shamt",
+          "type": "inm-unsigned",
+          "startbit": 25,
+          "stopbit": 20
+        },
+        {
+          "name": "cop",
+          "type": "cop",
+          "startbit": 31,
+          "stopbit": 26,
+          "valueField": "000000"
+        }
+      ],
+      "definition": "if (shamt > 0) {const temp = ((BigInt(rs1) & 0xFFFFFFFFn) >> BigInt(shamt)) & 0xFFFFFFFFn; rd = temp & 0x80000000n ? temp | 0xFFFFFFFF00000000n : temp; rd = capi_int2uint(rd);}",
+      "separated": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "help": ""
+    },
+    {
+      "name": "sllw",
+      "type": "Arithmetic integer",
+      "signature_definition": "F0 F3 F2 F1",
+      "signature": "sllw,INT-Reg,INT-Reg,INT-Reg",
+      "signatureRaw": "sllw rd rs1 rs2",
+      "co": "0111011",
+      "cop": "0000000001",
+      "nwords": 1,
+      "clk_cycles": 1,
+      "fields": [
+        {
+          "name": "sllw",
+          "type": "co",
+          "startbit": 6,
+          "stopbit": 0
+        },
+        {
+          "name": "rs2",
+          "type": "INT-Reg",
+          "startbit": 24,
+          "stopbit": 20
+        },
+        {
+          "name": "rs1",
+          "type": "INT-Reg",
+          "startbit": 19,
+          "stopbit": 15
+        },
+        {
+          "name": "rd",
+          "type": "INT-Reg",
+          "startbit": 11,
+          "stopbit": 7
+        },
+        {
+          "name": "cop",
+          "type": "cop",
+          "startbit": 31,
+          "stopbit": 25,
+          "valueField": "0111011"
+        },
+        {
+          "name": "cop2",
+          "type": "cop",
+          "startbit": 14,
+          "stopbit": 12,
+          "valueField": "001"
+        }
+      ],
+      "definition": "const temp = ((BigInt(rs1) & 0xFFFFFFFFn) << BigInt(rs2)) & 0xFFFFFFFFn; rd = temp & 0x80000000n ? temp | 0xFFFFFFFF00000000n : temp; rd = capi_int2uint(rd);",
+      "separated": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "help": ""
+    },
+    {
+      "name": "srlw",
+      "type": "Arithmetic integer",
+      "signature_definition": "F0 F3 F2 F1",
+      "signature": "srlw,INT-Reg,INT-Reg,INT-Reg",
+      "signatureRaw": "srlw rd rs1 rs2",
+      "co": "0111011",
+      "cop": "0000000101",
+      "nwords": 1,
+      "clk_cycles": 1,
+      "fields": [
+        {
+          "name": "srlw",
+          "type": "co",
+          "startbit": 6,
+          "stopbit": 0
+        },
+        {
+          "name": "rs2",
+          "type": "INT-Reg",
+          "startbit": 24,
+          "stopbit": 20
+        },
+        {
+          "name": "rs1",
+          "type": "INT-Reg",
+          "startbit": 19,
+          "stopbit": 15
+        },
+        {
+          "name": "rd",
+          "type": "INT-Reg",
+          "startbit": 11,
+          "stopbit": 7
+        },
+        {
+          "name": "cop",
+          "type": "cop",
+          "startbit": 31,
+          "stopbit": 25,
+          "valueField": "0111011"
+        },
+        {
+          "name": "cop2",
+          "type": "cop",
+          "startbit": 14,
+          "stopbit": 12,
+          "valueField": "101"
+        }
+      ],
+      "definition": "const temp = ((BigInt(rs1) & 0xFFFFFFFFn) >> BigInt(rs2)) & 0xFFFFFFFFn; rd = temp & 0x80000000n ? temp | 0xFFFFFFFF00000000n : temp; rd = capi_int2uint(rd);",
+      "separated": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "help": ""
     }
     
     ],
@@ -1827,6 +2184,26 @@
         }
       ],
       "definition": "no_ret_op{tmp=Field.2.(31,0).int - reg.pc;\ntmp_hi='0x'+(((tmp&0xFFFFF000)>>12) + ((tmp&0x00000400)>>11)).toString(16);\ntmp_low='0x'+(tmp&0x00000FFF).toString(16)};\nauipc rd op{tmp_hi};\naddi rd rd op{tmp_low};"
+    },
+    {
+      "name": "li",
+      "signature_definition": "li F0 F1",
+      "signature": "li,INT-Reg,inm-signed",
+      "signatureRaw": "li rd val",
+      "help": "",
+      "properties": [],
+      "nwords": 1,
+      "fields": [
+        {
+          "name": "rd",
+          "type": "INT-Reg"
+        },
+        {
+          "name": "val",
+          "type": "inm-signed"
+        }
+      ],
+      "definition": "if(Field.2.SIZE<=12){addi rd x0 val;}\nelse{lui rd 0;\nlui rd Field.2.(31,12).int;\naddi rd rd op{'0x'+(Field.2.(11,0).int ).toString(16)};}"
     }
     ],
     "directives": [

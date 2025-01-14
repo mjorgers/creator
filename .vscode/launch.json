@@ -32,7 +32,7 @@
             "program": "${workspaceFolder}/creator.js",
             "args": [
                 "-a", "./architecture/miniRISC64.json",
-                "-s", "./slli_test.s"
+                "-s", "./test/riscv64/sllw_test.s"
             ]
         }
         
