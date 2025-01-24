@@ -158,19 +158,6 @@ function load_arch_select ( cfg ) //TODO: repeated?
 }
 
 
-//
-// console_log
-//
-
-var creator_debug = false ;
-
-function console_log ( msg )
-{
-  if (creator_debug) {
-      console.log(msg) ;
-  }
-}
-
 
 //
 // Compiler
@@ -903,13 +890,17 @@ function assembly_compiler()
               label = "";
             }
             else if(update_binary.instructions_binary[i].globl == null){
-              hide = true;
+              hide = false; //TODO change this
             }
             else {
               hide = false;
             }
-
-            auxAddr = creator_insert_instruction(auxAddr, "********", "********", hide, hex, "**", label);
+            if (hide == false) {
+              auxAddr = creator_insert_instruction(auxAddr, update_binary.instructions_binary[i].loaded, update_binary.instructions_binary[i].loaded, hide, hex, "00", label);
+            }  
+            else {
+              auxAddr = creator_insert_instruction(auxAddr, "********", "********", hide, hex, "**", label);
+            } 
           }
         }
 
@@ -3675,10 +3666,5 @@ function generateBinary(separated, startbit, stopbit, binary, inm,fieldsLenght, 
     }
   }
   return binary;
-}
-
-
-function binaryStringToInt( b ) {
-    return parseInt(b, 2);
 }
 

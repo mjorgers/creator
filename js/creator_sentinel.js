@@ -500,7 +500,7 @@ function creator_callstack_do_transition ( doAction, indexComponent, indexElemen
          (typeof(stack_state_transition[state][action]) === "undefined") )
     {
         if (state < 40 || state < 0) {
-            console_log("creator_callstack_do_transition: undefined action");
+            console_log("creator_callstack_do_transition: undefined action" + action + " for state " + state + " (error).", "ERROR") ;
         } 
         return ;
     }
@@ -511,7 +511,7 @@ function creator_callstack_do_transition ( doAction, indexComponent, indexElemen
 
     if (action != "end") {
         console_log("creator_callstack_do_transition [" + architecture.components[indexComponent].elements[indexElement].name +"]: transition from " +
-                    "state '" + state + "'' to state '" + new_state + "' and action '" + action + "' is empty (warning).") ;
+                    "state '" + state + "'' to state '" + new_state + "' and action '" + action + "' is empty (warning).", "WARN") ;
     }
 }
 

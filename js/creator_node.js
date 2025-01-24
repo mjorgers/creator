@@ -19,14 +19,22 @@
  *
  */
 
+const { logger, console_log } = require('./utils/creator_logger');
 
+var creator_debug = false;
+
+// Configure logger based on creator_debug setting
+logger.setLevel('DEBUG');
+if (!creator_debug) {
+    logger.disable();
+}
 // load components
 
 function load_architecture ( arch_str )
 {
     var ret = {} ;
 
-    arch_obj = JSON.parse(arch_str) ;
+    let arch_obj = JSON.parse(arch_str) ;
     ret = load_arch_select(arch_obj) ;
 
     return ret ;

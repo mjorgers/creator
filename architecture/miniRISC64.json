@@ -45,7 +45,7 @@
             ],
             "nbits": "64",
             "value": "0",
-            "default_value": "0",
+            "default_value": "0x80000000",
             "properties": [
               "read",
               "write",
@@ -867,6 +867,62 @@
         ],
         "definition": "rd = PC;\n PC = inm;\n capi_callconv_begin(inm); capi_drawstack_begin(inm);",
         "separated": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "name": "jalr",
+        "type": "Unconditional bifurcation",
+        "signature_definition": "F0 F3 F1 (F2)",
+        "signature": "jalr,INT-Reg,inm-signed,(INT-Reg)",
+        "signatureRaw": "jalr rd inm (rs1)",
+        "co": "1100111",
+        "cop": "000",
+        "help": "",
+        "properties": [
+          "exit_subrutine"
+        ],
+        "nwords": 1,
+        "clk_cycles": 1,
+        "fields": [
+          {
+            "name": "jalr",
+            "type": "co",
+            "startbit": 6,
+            "stopbit": 0
+          },
+          {
+            "name": "inm",
+            "type": "inm-signed",
+            "startbit": 31,
+            "stopbit": 20
+          },
+          {
+            "name": "rs1",
+            "type": "INT-Reg",
+            "startbit": 19,
+            "stopbit": 15
+          },
+          {
+            "name": "rd",
+            "type": "INT-Reg",
+            "startbit": 11,
+            "stopbit": 7
+          },
+          {
+            "name": "cop",
+            "type": "cop",
+            "startbit": 14,
+            "stopbit": 12,
+            "valueField": "000"
+          }
+        ],
+        "definition": "rd = PC;\n PC = (rs1+inm)&~1n;\n capi_callconv_end(); capi_drawstack_end(PC);",
+        "separated": [
+          false,
+          false,
           false,
           false,
           false
@@ -1725,6 +1781,67 @@
         "help": ""
       },
       {
+        "name": "srai",
+        "type": "Arithmetic integer",
+        "signature_definition": "F0 F1 F3 F4",
+        "signature": "srai,INT-Reg,INT-Reg,inm-unsigned",
+        "signatureRaw": "srai rd rs1 shamt",
+        "co": "0010011",
+        "cop": "000000101",
+        "nwords": 1,
+        "clk_cycles": 1,
+        "fields": [
+          {
+            "name": "srai",
+            "type": "co",
+            "startbit": 6,
+            "stopbit": 0
+          },
+          {
+            "name": "rd",
+            "type": "INT-Reg",
+            "startbit": 11,
+            "stopbit": 7
+          },
+          {
+            "name": "cop2",
+            "type": "cop",
+            "startbit": 14,
+            "stopbit": 12,
+            "valueField": "101"
+          },
+          {
+            "name": "rs1",
+            "type": "INT-Reg",
+            "startbit": 19,
+            "stopbit": 15
+          },
+          {
+            "name": "shamt",
+            "type": "inm-unsigned",
+            "startbit": 25,
+            "stopbit": 20
+          },
+          {
+            "name": "cop",
+            "type": "cop",
+            "startbit": 31,
+            "stopbit": 26,
+            "valueField": "000000"
+          }
+        ],
+        "definition": "if (shamt > 0) {rd = (BigInt.asIntN(64,rs1) >> shamt);}",
+        "separated": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "help": ""
+      },
+      {
       "name": "srai",
       "type": "Arithmetic integer",
       "signature_definition": "F0 F1 F3 F4",
@@ -2021,6 +2138,67 @@
       "help": ""
     },
     {
+      "name": "sraiw",
+      "type": "Arithmetic integer",
+      "signature_definition": "F0 F1 F3 F4",
+      "signature": "sraiw,INT-Reg,INT-Reg,inm-unsigned",
+      "signatureRaw": "sraiw rd rs1 shamt",
+      "co": "0011011",
+      "cop": "000000101",
+      "nwords": 1,
+      "clk_cycles": 1,
+      "fields": [
+        {
+          "name": "sraiw",
+          "type": "co",
+          "startbit": 6,
+          "stopbit": 0
+        },
+        {
+          "name": "rd",
+          "type": "INT-Reg",
+          "startbit": 11,
+          "stopbit": 7
+        },
+        {
+          "name": "cop2",
+          "type": "cop",
+          "startbit": 14,
+          "stopbit": 12,
+          "valueField": "101"
+        },
+        {
+          "name": "rs1",
+          "type": "INT-Reg",
+          "startbit": 19,
+          "stopbit": 15
+        },
+        {
+          "name": "shamt",
+          "type": "inm-unsigned",
+          "startbit": 25,
+          "stopbit": 20
+        },
+        {
+          "name": "cop",
+          "type": "cop",
+          "startbit": 31,
+          "stopbit": 26,
+          "valueField": "000000"
+        }
+      ],
+      "definition": "if (shamt > 0) {const temp = BigInt.asIntN(32, BigInt(rs1)) >> BigInt(shamt); rd = capi_int2uint(temp);}",
+      "separated": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "help": ""
+    },
+    {
       "name": "sllw",
       "type": "Arithmetic integer",
       "signature_definition": "F0 F3 F2 F1",
@@ -2141,6 +2319,126 @@
         false
       ],
       "help": ""
+    },
+    {
+      "name": "sraw",
+      "type": "Arithmetic integer",
+      "signature_definition": "F0 F3 F2 F1",
+      "signature": "sraw,INT-Reg,INT-Reg,INT-Reg",
+      "signatureRaw": "sraw rd rs1 rs2",
+      "co": "0111011",
+      "cop": "0000000101",
+      "nwords": 1,
+      "clk_cycles": 1,
+      "fields": [
+        {
+          "name": "sraw",
+          "type": "co",
+          "startbit": 6,
+          "stopbit": 0
+        },
+        {
+          "name": "rs2",
+          "type": "INT-Reg",
+          "startbit": 24,
+          "stopbit": 20
+        },
+        {
+          "name": "rs1",
+          "type": "INT-Reg",
+          "startbit": 19,
+          "stopbit": 15
+        },
+        {
+          "name": "rd",
+          "type": "INT-Reg",
+          "startbit": 11,
+          "stopbit": 7
+        },
+        {
+          "name": "cop",
+          "type": "cop",
+          "startbit": 31,
+          "stopbit": 25,
+          "valueField": "0111011"
+        },
+        {
+          "name": "cop2",
+          "type": "cop",
+          "startbit": 14,
+          "stopbit": 12,
+          "valueField": "101"
+        }
+      ],
+      "definition": "const temp = BigInt.asIntN(32, BigInt(rs1)) >> BigInt(rs2); rd = capi_int2uint(temp);",
+      "separated": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "help": ""
+    },
+    {
+      "name": "beq",
+      "type": "Conditional bifurcation",
+      "signature_definition": "F0 F4 F3 F2",
+      "signature": "beq,INT-Reg,INT-Reg,offset_words",
+      "signatureRaw": "beq rs1 rs2 inm",
+      "co": "1100011",
+      "cop": "000",
+      "nwords": 1,
+      "clk_cycles": 1,
+      "fields": [
+        {
+          "name": "beq",
+          "type": "co",
+          "startbit": 6,
+          "stopbit": 0
+        },
+        {
+          "name": "cop",
+          "type": "cop",
+          "startbit": 14,
+          "stopbit": 12,
+          "valueField": "000"
+        },
+        {
+          "name": "inm",
+          "type": "offset_bytes",
+          "startbit": [
+            31,
+            11
+          ],
+          "stopbit": [
+            25,
+            7
+          ]
+        },
+        {
+          "name": "rs2",
+          "type": "INT-Reg",
+          "startbit": 24,
+          "stopbit": 20
+        },
+        {
+          "name": "rs1",
+          "type": "INT-Reg",
+          "startbit": 19,
+          "stopbit": 15
+        }
+      ],
+      "definition": "if (rs1 === rs2)\n PC = PC + inm - 4n; ",
+      "separated": [
+        false,
+        false,
+        true,
+        false,
+        false
+      ],
+      "help": ""
     }
     
     ],
@@ -2204,6 +2502,22 @@
         }
       ],
       "definition": "if(Field.2.SIZE<=12){addi rd x0 val;}\nelse{lui rd 0;\nlui rd Field.2.(31,12).int;\naddi rd rd op{'0x'+(Field.2.(11,0).int ).toString(16)};}"
+    },
+    {
+      "name": "j",
+      "signature_definition": "j F0",
+      "signature": "j,offset_words",
+      "signatureRaw": "j off",
+      "help": "",
+      "properties": [],
+      "nwords": 1,
+      "fields": [
+        {
+          "name": "off",
+          "type": "offset_words"
+        }
+      ],
+      "definition": "beq zero zero off;"
     }
     ],
     "directives": [
@@ -2278,30 +2592,30 @@
         "size": "8"
       }
     ],
-    "memory_layout": [
+"memory_layout": [
       {
         "name": "text start",
-        "value": "0x00000000"
+        "value": "0x80000000"
       },
       {
         "name": "text end",
-        "value": "0x001FFFFF"
+        "value": "0x801FFFFF"
       },
       {
         "name": "data start",
-        "value": "0x00200000"
+        "value": "0x80200000"
       },
       {
         "name": "data end",
-        "value": "0x05BBFCBF"
+        "value": "0x85BBFCBF"
       },
       {
         "name": "stack start",
-        "value": "0x0FFFFFFC"
+        "value": "0x8FFFFFF0"
       },
       {
         "name": "stack end",
-        "value": "0x0FFFFFFF"
+        "value": "0x8FFFFFFF"
       }
     ]
   }

@@ -1,4 +1,4 @@
-
+/* eslint-disable no-unused-vars */
 /*
  *  Copyright 2018-2024 Felix Garcia Carballeira, Alejandro Calderon Mateos, Diego Camarmas Alonso
  *
@@ -33,9 +33,9 @@ function bi_intToBigInt(int_value, int_base) {
 
 function bi_floatToBigInt ( float_value )
 {
-  var BigInt_value = null ;
-  var bin          = float2bin(float_value);
-  var hex          = bin2hex(bin);
+  let BigInt_value = null ;
+  let bin          = float2bin(float_value);
+  let hex          = bin2hex(bin);
 
   BigInt_value = BigInt("0x" + hex);
 
@@ -44,7 +44,7 @@ function bi_floatToBigInt ( float_value )
 
 function bi_BigIntTofloat ( big_int_value )
 {
-  var hex = big_int_value.toString(16);
+  let hex = big_int_value.toString(16);
 
   if (hex.length > 8) 
   {
@@ -57,9 +57,9 @@ function bi_BigIntTofloat ( big_int_value )
 
 function bi_doubleToBigInt ( double_value )
 {
-  var BigInt_value = null ;
-  var bin          = double2bin(double_value);
-  var hex          = bin2hex(bin);
+  let BigInt_value = null ;
+  let bin          = double2bin(double_value);
+  let hex          = bin2hex(bin);
 
   BigInt_value = BigInt("0x" + hex);
 
@@ -68,7 +68,7 @@ function bi_doubleToBigInt ( double_value )
 
 function bi_BigIntTodouble ( big_int_value )
 {
-  var hex = (big_int_value.toString(16)).padStart(16, "0");
+  let hex = (big_int_value.toString(16)).padStart(16, "0");
 
   return hex2double("0x" + hex);
 }
@@ -79,9 +79,9 @@ function register_value_deserialize( architecture )
 {
   //var architecture = architecture;
 
-  for (var i=0; i<architecture.components.length; i++)
+  for (let i=0; i<architecture.components.length; i++)
   {
-    for (var j=0; j< architecture.components[i].elements.length; j++)
+    for (let j=0; j< architecture.components[i].elements.length; j++)
     {
       if (architecture.components[i].type != "fp_registers"){
         architecture.components[i].elements[j].value = bi_intToBigInt(architecture.components[i].elements[j].value,10) ;
@@ -109,11 +109,11 @@ function register_value_deserialize( architecture )
 //Number/Bigint to string
 function register_value_serialize( architecture )
 {
-  var aux_architecture = jQuery.extend(true, {}, architecture);
+  let aux_architecture = jQuery.extend(true, {}, architecture);
 
-  for (var i=0; i<architecture.components.length; i++)
+  for (let i=0; i<architecture.components.length; i++)
   {
-    for (var j=0; j < architecture.components[i].elements.length; j++)
+    for (let j=0; j < architecture.components[i].elements.length; j++)
     {
       if (architecture.components[i].type != "fp_registers"){
         aux_architecture.components[i].elements[j].value = architecture.components[i].elements[j].value.toString();
@@ -177,6 +177,7 @@ function register_value_serialize( architecture )
     }
   }
 
+/* eslint-disable no-unused-vars */
 
 /*
  *  Copyright 2018-2024 Felix Garcia Carballeira, Diego Camarmas Alonso, Alejandro Calderon Mateos
@@ -238,6 +239,14 @@ function register_value_serialize( architecture )
       return rd;
   }
 
+  function binaryStringToInt(bstring) {
+    return parseInt(bstring, 2);
+  }
+
+  function validInteger(value) {
+    return value <= Number.MAX_SAFE_INTEGER && value >= Number.MIN_SAFE_INTEGER
+  }
+
   /* 
    * Convert to...
    */
@@ -250,7 +259,7 @@ function register_value_serialize( architecture )
 
     var valuec = [] ;
 
-    for (var i = 0; i < num_char; i++) {
+    for (let i =  0; i < num_char; i++) {
          var auxHex = hexvalue.substring(pos, pos+2);
          valuec[i] = String.fromCharCode(parseInt(auxHex, 16));
          pos = pos + 2;
@@ -258,7 +267,7 @@ function register_value_serialize( architecture )
 
     var characters = '';
 
-    for (var i = 0; i < valuec.length; i++){
+    for (let i =  0; i < valuec.length; i++){
          characters = characters + valuec[i] + ' ';
     }
 
@@ -289,7 +298,7 @@ function register_value_serialize( architecture )
 
     var value_bit = '';
 
-    for (var i = 0; i < value[1].length; i++){
+    for (let i =  0; i < value[1].length; i++){
       var aux = value[1].charAt(i);
       aux = (parseInt(aux, 16)).toString(2).padStart(4, "0");
       value_bit = value_bit + aux;
@@ -304,32 +313,49 @@ function register_value_serialize( architecture )
 
   function uint_to_float32 ( value )
   {
-    var buf = new ArrayBuffer(4) ;
-    (new Uint32Array(buf))[0] = value ;
-    return (new Float32Array(buf))[0] ;
+    if (validInteger(value)) {
+      var buf = new ArrayBuffer(4) ;
+      value = Number(value);
+      (new Uint32Array(buf))[0] = value ;
+      return (new Float32Array(buf))[0] ;
+    } else {
+      return -1;
+    }
   }
 
   function float32_to_uint ( value )
   {
-    var buf = new ArrayBuffer(4) ;
-    (new Float32Array(buf))[0] = value ;
-    return (new Uint32Array(buf))[0];
+    if (validInteger(value)) {
+      var buf = new ArrayBuffer(4) ;
+      (new Float32Array(buf))[0] = value ;
+      return (new Uint32Array(buf))[0];
+    } else {
+      return -1;
+    }
   }
 
   function uint_to_float64 ( value0, value1 )
   {
-    var buf = new ArrayBuffer(8) ;
-    var arr = new Uint32Array(buf) ;
-    arr[0] = value0 ;
-    arr[1] = value1 ;
-    return (new Float64Array(buf))[0] ;
+    if (validInteger(value0) && validInteger(value1)) {
+      var buf = new ArrayBuffer(8) ;
+      var arr = new Uint32Array(buf) ;
+      arr[0] = value0 ;
+      arr[1] = value1 ;
+      return (new Float64Array(buf))[0] ;
+    } else {
+      return -1;
+    }
   }
 
   function float64_to_uint ( value )
   {
-    var buf = new ArrayBuffer(8) ;
-    (new Float64Array(buf))[0] = value ;
-    return (new Uint32Array(buf)) ;
+    if (validInteger(value)) {
+      var buf = new ArrayBuffer(8) ;
+      (new Float64Array(buf))[0] = value ;
+      return (new Uint32Array(buf)) ;
+    } else {
+      return -1;
+    }
   }
 
   function float2bin ( number )
@@ -470,9 +496,9 @@ function register_value_serialize( architecture )
 
   function clean_string( value, prefix )
   {
-    var value2 = value.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '_');
+    let value2 = value.replace(/[&/\\#,+()$~%.'":*?<>{}]/g, '_');
 
-    re = new RegExp("^[0-9]+$");
+    let re = new RegExp("^[0-9]+$");
     if (value2.search(re) != -1 && prefix != "undefined") {
       value2 = prefix + value2;
     }
@@ -982,7 +1008,7 @@ function creator_callstack_do_transition ( doAction, indexComponent, indexElemen
          (typeof(stack_state_transition[state][action]) === "undefined") )
     {
         if (state < 40 || state < 0) {
-            console_log("creator_callstack_do_transition: undefined action");
+            console_log("creator_callstack_do_transition: undefined action" + action + " for state " + state + " (error).", "ERROR") ;
         } 
         return ;
     }
@@ -993,7 +1019,7 @@ function creator_callstack_do_transition ( doAction, indexComponent, indexElemen
 
     if (action != "end") {
         console_log("creator_callstack_do_transition [" + architecture.components[indexComponent].elements[indexElement].name +"]: transition from " +
-                    "state '" + state + "'' to state '" + new_state + "' and action '" + action + "' is empty (warning).") ;
+                    "state '" + state + "'' to state '" + new_state + "' and action '" + action + "' is empty (warning).", "WARN") ;
     }
 }
 
@@ -2155,7 +2181,7 @@ var word_size_bits  = 32 ;
 var word_size_bytes = word_size_bits / 8 ;
     // TODO: load from architecture
 
-var register_size_bits = 64 ; 
+var register_size_bits = 32 ; 
 
 var main_memory = [] ;
     //  [
@@ -2183,8 +2209,8 @@ function main_memory_get_addresses ( )
 {
         return Object.keys(main_memory)
                      .sort(function (a, b) {
-                             ia = parseInt(a) ;
-                             ib = parseInt(b) ;
+                             let ia = parseInt(a) ;
+                             let ib = parseInt(b) ;
                              if (ia > ib) return -1;
                              if (ib > ia) return  1;
                                           return  0;
@@ -2195,8 +2221,8 @@ function main_memory_datatype_get_addresses ( )
 {
         return Object.keys(main_memory_datatypes)
                      .sort(function (a, b) {
-                             ia = parseInt(a) ;
-                             ib = parseInt(b) ;
+                             let ia = parseInt(a) ;
+                             let ib = parseInt(b) ;
                              if (ia > ib) return -1;
                              if (ib > ia) return  1;
                                           return  0;
@@ -3212,19 +3238,6 @@ function load_arch_select ( cfg ) //TODO: repeated?
 }
 
 
-//
-// console_log
-//
-
-var creator_debug = true ;
-
-function console_log ( msg )
-{
-  if (creator_debug) {
-      console.log(msg) ;
-  }
-}
-
 
 //
 // Compiler
@@ -3957,13 +3970,17 @@ function assembly_compiler()
               label = "";
             }
             else if(update_binary.instructions_binary[i].globl == null){
-              hide = true;
+              hide = false; //TODO change this
             }
             else {
               hide = false;
             }
-
-            auxAddr = creator_insert_instruction(auxAddr, "********", "********", hide, hex, "**", label);
+            if (hide == false) {
+              auxAddr = creator_insert_instruction(auxAddr, update_binary.instructions_binary[i].loaded, update_binary.instructions_binary[i].loaded, hide, hex, "00", label);
+            }  
+            else {
+              auxAddr = creator_insert_instruction(auxAddr, "********", "********", hide, hex, "**", label);
+            } 
           }
         }
 
@@ -6732,11 +6749,6 @@ function generateBinary(separated, startbit, stopbit, binary, inm,fieldsLenght, 
 }
 
 
-function binaryStringToInt( b ) {
-    return parseInt(b, 2);
-}
-
-
 /*
  *  Copyright 2018-2024 Felix Garcia Carballeira, Diego Camarmas Alonso, Alejandro Calderon Mateos
  *
@@ -6799,9 +6811,9 @@ function execute_instruction ( )
 
   do
   {
-    console_log(execution_index);
+    console_log("Execution Index:" + execution_index, "DEBUG");
     //console_log(architecture.components[0].elements[0].value); //TODO
-    console_log(readRegister(0, 0));
+    console_log("Register (0,0) =" + readRegister(0, 0), "DEBUG");
 
     if (instructions.length === 0) {
       return packExecute(true, 'No instructions in memory', 'danger', null);
@@ -7020,8 +7032,8 @@ function execute_instruction ( )
           signatureRawParts.push(match[j]);
         }
 
-        console_log(signatureParts);
-        console_log(signatureRawParts);
+        console_log("signatureParts: " + signatureParts, "DEBUG");
+        console_log("signatureRawParts: "+ signatureRawParts, "DEBUG");
 
         auxDef = architecture.instructions[i].definition;
         nwords = architecture.instructions[i].nwords;
@@ -7035,7 +7047,7 @@ function execute_instruction ( )
     var pc_reg = crex_findReg_bytag ("program_counter");
     word_size = parseInt(architecture.arch_conf[1].value) / 8;
     writeRegister(readRegister(pc_reg.indexComp, pc_reg.indexElem) + BigInt(nwords * word_size), 0,0);
-    console_log(auxDef);
+    console_log("auxDef: "+ auxDef, "DEBUG");
 
 
     // preload
@@ -7055,7 +7067,7 @@ function execute_instruction ( )
       }
       //END TODO
 
-      console_log(instructionExecParts);
+      console_log("instructionExecParts: " + instructionExecParts, "DEBUG");
 
       var var_readings_definitions      = {};
       var var_readings_definitions_prev = {};
@@ -7137,7 +7149,7 @@ function execute_instruction ( )
               value = parseInt(value_bin, 2) >> 0 ;
               instructionExecParts[i] = value ;
 
-              console_log(instructionExecParts[i]);
+              console_log("instructionExecParts["+i+"]: "+ instructionExecParts[i], "DEBUG");
             }
           }
           /////////
@@ -7201,18 +7213,7 @@ function execute_instruction ( )
       console_log(" ................................. " +
                   "instructions[" + execution_index + "]:\n" +
                    auxDef + "\n" +
-                  " ................................. ");
-
-
-      console_log(" will eval:\n " +
-        "instructions[" + execution_index + "].preload = function(elto) { " +
-           "   try {\n" +
-               auxDef.replace(/this./g,"elto.") + "\n" +
-           "   }\n" +
-           "   catch(e){\n" +
-           "     throw e;\n" +
-           "   }\n" +
-           "}; ") ;
+                  " ................................. ", "DEBUG");
 
       // preload instruction
       eval("instructions[" + execution_index + "].preload = function(elto) { " +
@@ -7239,7 +7240,7 @@ function execute_instruction ( )
         msg = 'The definition of the instruction contains errors, please review it' + e.stack ; //TODO
       else msg = e.msg ;
 
-      console_log("Error: " + e.stack);
+      console_log("Error: " + e.stack, "ERROR");
       error = 1;
       draw.danger.push(execution_index) ;
       execution_index = -1;
@@ -7303,7 +7304,7 @@ function execute_instruction ( )
         draw.success.push(execution_index);
       }
     }
-    console_log(execution_index) ;
+    console_log("execution_index: " + execution_index, "DEBUG");
   }
   while(instructions[execution_index].hide === true) ;
 
@@ -7793,14 +7794,22 @@ function get_number_binary (bin)
  *
  */
 
+const { logger, console_log } = require('./utils/creator_logger');
 
+var creator_debug = false;
+
+// Configure logger based on creator_debug setting
+logger.setLevel('DEBUG');
+if (!creator_debug) {
+    logger.disable();
+}
 // load components
 
 function load_architecture ( arch_str )
 {
     var ret = {} ;
 
-    arch_obj = JSON.parse(arch_str) ;
+    let arch_obj = JSON.parse(arch_str) ;
     ret = load_arch_select(arch_obj) ;
 
     return ret ;

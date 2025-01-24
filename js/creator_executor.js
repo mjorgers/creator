@@ -61,9 +61,9 @@ function execute_instruction ( )
 
   do
   {
-    console_log(execution_index);
+    console_log("Execution Index:" + execution_index, "DEBUG");
     //console_log(architecture.components[0].elements[0].value); //TODO
-    console_log(readRegister(0, 0));
+    console_log("Register (0,0) =" + readRegister(0, 0), "DEBUG");
 
     if (instructions.length === 0) {
       return packExecute(true, 'No instructions in memory', 'danger', null);
@@ -282,8 +282,8 @@ function execute_instruction ( )
           signatureRawParts.push(match[j]);
         }
 
-        console_log(signatureParts);
-        console_log(signatureRawParts);
+        console_log("signatureParts: " + signatureParts, "DEBUG");
+        console_log("signatureRawParts: "+ signatureRawParts, "DEBUG");
 
         auxDef = architecture.instructions[i].definition;
         nwords = architecture.instructions[i].nwords;
@@ -297,7 +297,7 @@ function execute_instruction ( )
     var pc_reg = crex_findReg_bytag ("program_counter");
     word_size = parseInt(architecture.arch_conf[1].value) / 8;
     writeRegister(readRegister(pc_reg.indexComp, pc_reg.indexElem) + BigInt(nwords * word_size), 0,0);
-    console_log(auxDef);
+    console_log("auxDef: "+ auxDef, "DEBUG");
 
 
     // preload
@@ -317,7 +317,7 @@ function execute_instruction ( )
       }
       //END TODO
 
-      console_log(instructionExecParts);
+      console_log("instructionExecParts: " + instructionExecParts, "DEBUG");
 
       var var_readings_definitions      = {};
       var var_readings_definitions_prev = {};
@@ -399,7 +399,7 @@ function execute_instruction ( )
               value = parseInt(value_bin, 2) >> 0 ;
               instructionExecParts[i] = value ;
 
-              console_log(instructionExecParts[i]);
+              console_log("instructionExecParts["+i+"]: "+ instructionExecParts[i], "DEBUG");
             }
           }
           /////////
@@ -463,7 +463,7 @@ function execute_instruction ( )
       console_log(" ................................. " +
                   "instructions[" + execution_index + "]:\n" +
                    auxDef + "\n" +
-                  " ................................. ");
+                  " ................................. ", "DEBUG");
 
       // preload instruction
       eval("instructions[" + execution_index + "].preload = function(elto) { " +
@@ -490,7 +490,7 @@ function execute_instruction ( )
         msg = 'The definition of the instruction contains errors, please review it' + e.stack ; //TODO
       else msg = e.msg ;
 
-      console_log("Error: " + e.stack);
+      console_log("Error: " + e.stack, "ERROR");
       error = 1;
       draw.danger.push(execution_index) ;
       execution_index = -1;
@@ -554,7 +554,7 @@ function execute_instruction ( )
         draw.success.push(execution_index);
       }
     }
-    console_log(execution_index) ;
+    console_log("execution_index: " + execution_index, "DEBUG");
   }
   while(instructions[execution_index].hide === true) ;
 

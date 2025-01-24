@@ -4,9 +4,8 @@
   "author": "dcamarma@inf.uc3m.es",
   "version": "4.1",
   "scripts": {
-    "test-creator-node": "./run_test.sh",
-    "build-creator-web": "./mk_min.sh",
-    "build-creator-node": "./mk_min.sh"
+    "test": "./run_test.sh",
+    "build": "./mk_min.sh"
   },
   "dependencies": {
     "colors": "^1.4.0",
@@ -14,5 +13,11 @@
     "readline-sync": "^1.4.10",
     "terser": "^5.37.0",
     "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "eslint": "^9.18.0",
+    "eslint-plugin-vue": "^9.32.0",
+    "globals": "^15.14.0"
   }
 }

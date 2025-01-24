@@ -30,7 +30,7 @@ var word_size_bits  = 32 ;
 var word_size_bytes = word_size_bits / 8 ;
     // TODO: load from architecture
 
-var register_size_bits = 64 ; 
+var register_size_bits = 32 ; 
 
 var main_memory = [] ;
     //  [
@@ -58,8 +58,8 @@ function main_memory_get_addresses ( )
 {
         return Object.keys(main_memory)
                      .sort(function (a, b) {
-                             ia = parseInt(a) ;
-                             ib = parseInt(b) ;
+                             let ia = parseInt(a) ;
+                             let ib = parseInt(b) ;
                              if (ia > ib) return -1;
                              if (ib > ia) return  1;
                                           return  0;
@@ -70,8 +70,8 @@ function main_memory_datatype_get_addresses ( )
 {
         return Object.keys(main_memory_datatypes)
                      .sort(function (a, b) {
-                             ia = parseInt(a) ;
-                             ib = parseInt(b) ;
+                             let ia = parseInt(a) ;
+                             let ib = parseInt(b) ;
                              if (ia > ib) return -1;
                              if (ib > ia) return  1;
                                           return  0;

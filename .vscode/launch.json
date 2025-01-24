@@ -21,7 +21,19 @@
             "program": "${workspaceFolder}/creator.js",
             "args": [
                 "-a", "./architecture/RISC_V_RV32IMFD.json",
-                "-s", "./test/riscv/correct/examples/test_riscv_example_003.s"
+                "-s", "./test/riscv/instructions/test_riscv_instruction_035.s"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "LoadBinary",
+            "skipFiles": ["<node_internals>/**"],
+            "program": "${workspaceFolder}/creator.js",
+            "args": [
+                "-a", "./architecture/miniRISC64.json",
+                "-l", "./test/riscv64/compliant/binary.o",
+                "-s", "./test/riscv64/compliant/loader.s"
             ]
         },
         {
@@ -32,7 +44,7 @@
             "program": "${workspaceFolder}/creator.js",
             "args": [
                 "-a", "./architecture/miniRISC64.json",
-                "-s", "./test/riscv64/sllw_test.s"
+                "-s", "./test/riscv64/beq_test.s"
             ]
         }
         

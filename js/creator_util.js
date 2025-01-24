@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 
 /*
  *  Copyright 2018-2024 Felix Garcia Carballeira, Diego Camarmas Alonso, Alejandro Calderon Mateos
@@ -59,6 +60,14 @@
       return rd;
   }
 
+  function binaryStringToInt(bstring) {
+    return parseInt(bstring, 2);
+  }
+
+  function validInteger(value) {
+    return value <= Number.MAX_SAFE_INTEGER && value >= Number.MIN_SAFE_INTEGER
+  }
+
   /* 
    * Convert to...
    */
@@ -71,7 +80,7 @@
 
     var valuec = [] ;
 
-    for (var i = 0; i < num_char; i++) {
+    for (let i =  0; i < num_char; i++) {
          var auxHex = hexvalue.substring(pos, pos+2);
          valuec[i] = String.fromCharCode(parseInt(auxHex, 16));
          pos = pos + 2;
@@ -79,7 +88,7 @@
 
     var characters = '';
 
-    for (var i = 0; i < valuec.length; i++){
+    for (let i =  0; i < valuec.length; i++){
          characters = characters + valuec[i] + ' ';
     }
 
@@ -110,7 +119,7 @@
 
     var value_bit = '';
 
-    for (var i = 0; i < value[1].length; i++){
+    for (let i =  0; i < value[1].length; i++){
       var aux = value[1].charAt(i);
       aux = (parseInt(aux, 16)).toString(2).padStart(4, "0");
       value_bit = value_bit + aux;
@@ -125,32 +134,49 @@
 
   function uint_to_float32 ( value )
   {
-    var buf = new ArrayBuffer(4) ;
-    (new Uint32Array(buf))[0] = value ;
-    return (new Float32Array(buf))[0] ;
+    if (validInteger(value)) {
+      var buf = new ArrayBuffer(4) ;
+      value = Number(value);
+      (new Uint32Array(buf))[0] = value ;
+      return (new Float32Array(buf))[0] ;
+    } else {
+      return -1;
+    }
   }
 
   function float32_to_uint ( value )
   {
-    var buf = new ArrayBuffer(4) ;
-    (new Float32Array(buf))[0] = value ;
-    return (new Uint32Array(buf))[0];
+    if (validInteger(value)) {
+      var buf = new ArrayBuffer(4) ;
+      (new Float32Array(buf))[0] = value ;
+      return (new Uint32Array(buf))[0];
+    } else {
+      return -1;
+    }
   }
 
   function uint_to_float64 ( value0, value1 )
   {
-    var buf = new ArrayBuffer(8) ;
-    var arr = new Uint32Array(buf) ;
-    arr[0] = value0 ;
-    arr[1] = value1 ;
-    return (new Float64Array(buf))[0] ;
+    if (validInteger(value0) && validInteger(value1)) {
+      var buf = new ArrayBuffer(8) ;
+      var arr = new Uint32Array(buf) ;
+      arr[0] = value0 ;
+      arr[1] = value1 ;
+      return (new Float64Array(buf))[0] ;
+    } else {
+      return -1;
+    }
   }
 
   function float64_to_uint ( value )
   {
-    var buf = new ArrayBuffer(8) ;
-    (new Float64Array(buf))[0] = value ;
-    return (new Uint32Array(buf)) ;
+    if (validInteger(value)) {
+      var buf = new ArrayBuffer(8) ;
+      (new Float64Array(buf))[0] = value ;
+      return (new Uint32Array(buf)) ;
+    } else {
+      return -1;
+    }
   }
 
   function float2bin ( number )
@@ -291,9 +317,9 @@
 
   function clean_string( value, prefix )
   {
-    var value2 = value.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '_');
+    let value2 = value.replace(/[&/\\#,+()$~%.'":*?<>{}]/g, '_');
 
-    re = new RegExp("^[0-9]+$");
+    let re = new RegExp("^[0-9]+$");
     if (value2.search(re) != -1 && prefix != "undefined") {
       value2 = prefix + value2;
     }
