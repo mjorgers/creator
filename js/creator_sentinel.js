@@ -372,7 +372,7 @@ function creator_callstack_setState (indexComponent, indexElement, newState)
 {
     var elto = creator_callstack_getTop();
     if (elto.ok === false) {
-        console_log('creator_callstack_setState: ' + elto.msg) ;
+        console_log('creator_callstack_setState: ' + elto.msg, "ERROR") ;
     return '' ;
     }
 
@@ -384,7 +384,7 @@ function creator_callstack_getState (indexComponent, indexElement)
 {
     var elto = creator_callstack_getTop();
     if (elto.ok === false) {
-        console_log('creator_callstack_getState: ' + elto.msg) ;
+        console_log('creator_callstack_getState: ' + elto.msg, "ERROR") ;
     return '' ;
     }
 
@@ -402,7 +402,7 @@ function creator_callstack_newWrite (indexComponent, indexElement, address, leng
 
     var elto = creator_callstack_getTop();
     if (elto.ok == false) {
-        console_log('creator_callstack_newWrite: ' + elto.msg) ;
+        console_log('creator_callstack_newWrite: ' + elto.msg, "ERROR") ;
     return '' ;
     }
 

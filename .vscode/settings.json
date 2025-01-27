@@ -1,3 +1,10 @@
 {
-    "cmake.ignoreCMakeListsMissing": true
-}
+    "debug.javascript.autoAttachFilter": "smart",
+    "debug.javascript.terminalOptions": {
+      "skipFiles": [
+        "<node_internals>/**",
+        "**/node_modules/**",
+        "**/creator_logger.js"
+      ]
+    }
+  }

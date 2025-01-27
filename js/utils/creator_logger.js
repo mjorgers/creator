@@ -69,7 +69,7 @@ class Logger {
                 const match = line.match(/\((.+):(\d+):(\d+)\)/) || 
                              line.match(/at (.+):(\d+):(\d+)/);
                 if (match) {
-                    return `[${match[2]}:${match[3]}]`;
+                    return `${match[1]}:${match[2]}:${match[3]}`;
                 }
             }
             return '';
@@ -77,7 +77,7 @@ class Logger {
             return '';
         }
     }
-
+    
     /**
      * @private
      * @param {string} message
@@ -85,12 +85,14 @@ class Logger {
      */
     #log(message, level) {
         if (!this.enabled || LOG_LEVELS[level] > this.level) return;
-
-        const caller = this._extractCaller();
-        const prefix = `${COLORS[level]}[${level}]${caller ? ' ' + caller : ''}`;
         
-        console.log(`${prefix} ${message}${COLORS.RESET}`);
+        const caller = this._extractCaller();
+        const prefix = `${COLORS[level]}[${level}]${caller ? ' ' + caller : ''}${COLORS.RESET}`;
+        
+        console.log(prefix);
+        console.log(`${COLORS[level]}    ${message}${COLORS.RESET}`);
     }
+
 
     error(message) { this.#log(String(message), 'ERROR'); }
     warn(message)  { this.#log(String(message), 'WARN'); }

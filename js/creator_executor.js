@@ -63,7 +63,7 @@ function execute_instruction ( )
   {
     console_log("Execution Index:" + execution_index, "DEBUG");
     //console_log(architecture.components[0].elements[0].value); //TODO
-    console_log("Register (0,0) =" + readRegister(0, 0), "DEBUG");
+    console_log("Register (0,0): " + readRegister(0, 0), "DEBUG");
 
     if (instructions.length === 0) {
       return packExecute(true, 'No instructions in memory', 'danger', null);
@@ -460,10 +460,12 @@ function execute_instruction ( )
                  writings_description;
 
       // DEBUG
-      console_log(" ................................. " +
-                  "instructions[" + execution_index + "]:\n" +
-                   auxDef + "\n" +
-                  " ................................. ", "DEBUG");
+      console_log("\n===== INSTRUCTION EXECUTION [" + execution_index + "] =====\n" +
+        "Original Definition:\n" +
+        auxDef + "\n" +
+        "Modified Values:\n" + 
+        writings_description + "\n" +
+        "=====================================", "DEBUG");
 
       // preload instruction
       eval("instructions[" + execution_index + "].preload = function(elto) { " +
@@ -683,9 +685,9 @@ function get_execution_index ( draw )
     {
       execution_index = i;
 
-      console_log(instructions[execution_index].hide);
-      console_log(execution_index);
-      console_log(instructions[i].Address);
+      console_log(`Instruction Hidden Status: ${instructions[execution_index].hide}`, "DEBUG");
+      console_log(`Current Execution Index: ${execution_index} of ${instructions.length}`, "DEBUG");
+      console_log(`Instruction Address: 0x${instructions[i].Address}`, "DEBUG");
 
       if (instructions[execution_index].hide === false) {
         draw.info.push(execution_index);

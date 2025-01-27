@@ -216,12 +216,13 @@ function main_memory_read_default_value ( addr )
 
 function main_memory_read_nbytes ( addr, n )
 {
-        var value = "" ;
-        for (var i = 0n; i < BigInt(n); i++) {
-             value = value + main_memory_read_value(addr+i) ;
-        }
+     addr = BigInt(addr) ;
+     var value = "" ;
+     for (var i = 0n; i < BigInt(n); i++) {
+          value = value + main_memory_read_value(addr+i) ;
+     }
 
-        return value;
+     return value;
 }
 
 function main_memory_write_nbytes ( addr, value, n )

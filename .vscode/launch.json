@@ -17,11 +17,17 @@
             "type": "node",
             "request": "launch",
             "name": "Debug Creator",
-            "skipFiles": ["<node_internals>/**"],
+            "skipFiles": [
+                "<node_internals>/**",
+                "**/creator_logger.js"
+            ],
             "program": "${workspaceFolder}/creator.js",
+            "preLaunchTask": "npm: build",
+            "sourceMaps": true,
             "args": [
                 "-a", "./architecture/RISC_V_RV32IMFD.json",
-                "-s", "./test/riscv/instructions/test_riscv_instruction_035.s"
+                "-s", "./test/riscv/correct/examples/test_riscv_example_008.s",
+                "--debug"
             ]
         },
         {

@@ -1,6 +1,7 @@
   //
    // Import
    //
+   require('source-map-support').install();
 
    // filesystem
    var fs   = require('fs') ;
@@ -26,7 +27,7 @@
                        error:   'brightWhite'
                      } ;
    var colors = require('colors') ;
-   colors.setTheme(gray_theme) ;
+   colors.setTheme(color_theme) ;
 
    // arguments
    var argv = require('yargs')
@@ -35,6 +36,11 @@
                      'Usage: $0 -h')
               .example([ ['./$0',
                          'To show examples.'] ])
+                         .option('debug', {
+                            type: 'boolean',
+                            describe: 'Enable debug mode',
+                            default: false
+                        })
               .option('architecture', {
                   alias:    'a',
                   type:     'string',
@@ -99,6 +105,8 @@
               .alias('h', 'help')
               .argv ;
 
+   // Set the debug mode
+   creator.set_debug(argv.debug);
 
    //
    // Main

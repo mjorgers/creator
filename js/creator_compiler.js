@@ -586,7 +586,7 @@ function assembly_compiler()
           var signatureParts    = pending_instructions[i].signature;
           var signatureRawParts = pending_instructions[i].signatureRaw;
           var instructionParts  = (pending_instructions[i].instruction).split(' ');
-          console_log(instructionParts);
+          console.table(instructions);
 
           for (var j = 0; j < signatureParts.length && exit === 0; j++)
           {
@@ -3120,8 +3120,7 @@ function instruction_compiler ( instruction, userInstruction, label, line, pendi
         }
 
         console_log(address.toString(16));
-        console_log(instructions);
-
+        console_log("Instructions:\n" + JSON.stringify(instructions, null, 2), "DEBUG");
         stopFor = true;
         break;
       }
