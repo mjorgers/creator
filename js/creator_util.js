@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 /*
  *  Copyright 2018-2024 Felix Garcia Carballeira, Diego Camarmas Alonso, Alejandro Calderon Mateos
  *
