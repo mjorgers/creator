@@ -57,7 +57,7 @@ class Logger {
      * @private
      * @returns {string}
      */
-    _extractCaller() {
+    #extractCaller() {
         try {
             const stack = new Error().stack.split('\n');
             for (let i = 1; i < stack.length; i++) {
@@ -86,7 +86,7 @@ class Logger {
     #log(message, level) {
         if (!this.enabled || LOG_LEVELS[level] > this.level) return;
         
-        const caller = this._extractCaller();
+        const caller = this.#extractCaller();
         const prefix = `${COLORS[level]}[${level}]${caller ? ' ' + caller : ''}${COLORS.RESET}`;
         
         console.log(prefix);
