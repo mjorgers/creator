@@ -34,5 +34,17 @@
     "description": "New Architecture",
     "guide":"",
     "available": 0
+  },
+  {
+    "name": "miniRISC64",
+    "alias": ["miniRISC64", "minirisc64", "mini64", "Mini64"],
+    "file": "miniRISC64",
+    "img": "./images/risc-v_logo.png",
+    "alt": "miniRISC64",
+    "id": "select_confRISV",
+    "examples":["default"],
+    "description": "",
+    "guide":"",
+    "available": 1
   }
 ]

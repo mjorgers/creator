@@ -30,6 +30,8 @@ var word_size_bits  = 32 ;
 var word_size_bytes = word_size_bits / 8 ;
     // TODO: load from architecture
 
+var register_size_bits = 32 ; 
+
 var main_memory = [] ;
     //  [
     //    addr: { addr: addr, bin: "00", def_bin: "00", tag: null, data_type: ref <main_memory_datatypes>, reset: true, break: false },
@@ -56,8 +58,8 @@ function main_memory_get_addresses ( )
 {
         return Object.keys(main_memory)
                      .sort(function (a, b) {
-                             ia = parseInt(a) ;
-                             ib = parseInt(b) ;
+                             let ia = parseInt(a) ;
+                             let ib = parseInt(b) ;
                              if (ia > ib) return -1;
                              if (ib > ia) return  1;
                                           return  0;
@@ -68,8 +70,8 @@ function main_memory_datatype_get_addresses ( )
 {
         return Object.keys(main_memory_datatypes)
                      .sort(function (a, b) {
-                             ia = parseInt(a) ;
-                             ib = parseInt(b) ;
+                             let ia = parseInt(a) ;
+                             let ib = parseInt(b) ;
                              if (ia > ib) return -1;
                              if (ib > ia) return  1;
                                           return  0;
@@ -214,12 +216,13 @@ function main_memory_read_default_value ( addr )
 
 function main_memory_read_nbytes ( addr, n )
 {
-        var value = "" ;
-        for (var i = 0; i < n; i++) {
-             value = value + main_memory_read_value(addr+i) ;
-        }
+     addr = BigInt(addr) ;
+     var value = "" ;
+     for (var i = 0n; i < BigInt(n); i++) {
+          value = value + main_memory_read_value(addr+i) ;
+     }
 
-        return value;
+     return value;
 }
 
 function main_memory_write_nbytes ( addr, value, n )
@@ -227,8 +230,8 @@ function main_memory_write_nbytes ( addr, value, n )
         var value_str = value.toString(16).padStart(2*n, "0") ;
         var chunks    = value_str.match(/.{1,2}/g) ;
 
-        for (var i = 0; i < n; i++) {
-             main_memory_write_value(addr+i, chunks[i]) ;
+        for (var i = 0n; i < BigInt(n); i++) {
+             main_memory_write_value(BigInt(addr)+i, chunks[i]) ;
         }
 }
 
@@ -256,55 +259,52 @@ function create_memory_read_string ( addr )
 
 function main_memory_read_bydatatype ( addr, type )
 {
-        var ret = 0x0 ;
+        var ret = 0n ;
 
         switch (type)
         {
           case 'b':
           case 'bu':
           case 'byte':
-               ret = "0x" + main_memory_read_value(addr) ;
-               ret = parseInt(ret, 16) ;
+               ret = BigInt("0x" + main_memory_read_value(addr));
                break;
 
           case 'h':
           case 'hu':
           case 'half':
           case 'half_word':
-               ret = "0x" + main_memory_read_nbytes(addr, word_size_bytes/2) ;
-               ret = parseInt(ret, 16) ;
+               ret = BigInt("0x" + main_memory_read_nbytes(addr, word_size_bytes/2));
                break;
 
           case 'w':
+          case 'wu':
           case 'integer':
           case 'word':
-               ret = "0x" + main_memory_read_nbytes(addr, word_size_bytes) ;
-               ret = parseInt(ret, 16) ;
+               ret = BigInt("0x" + main_memory_read_nbytes(addr, word_size_bytes));
                break;
 
           case 'float':
-               ret = "0x" + main_memory_read_nbytes(addr, word_size_bytes) ;
-               ret = hex2float(ret) ;
+               ret = "0x" + main_memory_read_nbytes(addr, word_size_bytes);
+               ret = hex2float(ret);
                break;
 
           case 'd':
           case 'double':
           case 'double_word':
-               ret = "0x" + main_memory_read_nbytes(addr, word_size_bytes*2) ;
-               ret = hex2double(ret) ;
+               ret = "0x" + main_memory_read_nbytes(addr, word_size_bytes*2);
                break;
 
           case 'c':
           case 'cu':
           case 'char':
-               ch = main_memory_read_value(addr) ;
-               ret = String.fromCharCode(parseInt(ch, 16));
+               let ch = main_memory_read_value(addr);
+               ret = String.fromCharCode(Number(BigInt("0x" + ch)));
                break;
 
           case 'asciiz':
           case 'string':
           case 'ascii_null_end':
-               ret = create_memory_read_string(addr) ;
+               ret = create_memory_read_string(addr);
                break;
 
           case 'ascii':
@@ -317,7 +317,7 @@ function main_memory_read_bydatatype ( addr, type )
                break;
         }
 
-        return ret ;
+        return ret;
 }
 
 function main_memory_datatypes_update ( addr )
@@ -356,11 +356,11 @@ function main_memory_datatypes_update_or_create ( addr, value_human, size, type 
 
         // update main-memory referencies...
         var data = null ;
-        for (var i=0; i<size; i++)
+        for (var i=0n; i<BigInt(size); i++)
         {
-             data = main_memory_read(addr + i) ;
+             data = main_memory_read(BigInt(addr) + i) ;
              data.data_type = data_type ;
-             main_memory_write(addr + i, data) ;
+             main_memory_write(BigInt(addr) + i, data) ;
         }
 }
 
@@ -376,7 +376,7 @@ function main_memory_write_bydatatype ( addr, value, type, value_human )
                 case 'b':
                 case 'byte':
                      size = 1 ;
-                     var value2 = creator_memory_value_by_type(value, type) ;
+                     var value2 = creator_memory_value_by_type(value, 'bu') ;
                      ret = main_memory_write_nbytes(addr, value2, size, type) ;
                      main_memory_datatypes_update_or_create(addr, value_human, size, type);
                      break;
@@ -385,7 +385,7 @@ function main_memory_write_bydatatype ( addr, value, type, value_human )
                 case 'half':
                 case 'half_word':
                      size = word_size_bytes / 2 ;
-                     var value2 = creator_memory_value_by_type(value, type) ;
+                     var value2 = creator_memory_value_by_type(value, 'hu') ;
                      ret = main_memory_write_nbytes(addr, value2, size, type) ;
                      main_memory_datatypes_update_or_create(addr, value_human, size, type);
                      break;
@@ -395,7 +395,8 @@ function main_memory_write_bydatatype ( addr, value, type, value_human )
                 case 'float':
                 case 'word':
                      size = word_size_bytes ;
-                     ret = main_memory_write_nbytes(addr, value, size, type) ;
+                     var value2 = creator_memory_value_by_type(value, 'wu') ;
+                     ret = main_memory_write_nbytes(addr, value2, size, type) ;
                      main_memory_datatypes_update_or_create(addr, value_human, size, type);
                      break;
 
@@ -493,41 +494,43 @@ function creator_memory_type2size ( type )
                       break;
         }
 
-        return size ;
+        return BigInt(size) ;
 }
 
 function creator_memory_value_by_type ( val, type )
 {
+        if (typeof val === 'string' && !val.startsWith('0x')) {
+          val = '0x' + val;
+        }
+        var val = BigInt(val) ;
         switch (type)
         {
                 case 'b':
-                 val = val & 0xFF ;
-                 if (val & 0x80)
-                 {
-                         val = 0xFFFFFF00 | val ;
-                         val = (val >>> 0)
-                 }
-                 break;
+                  val = BigInt.asIntN(8, val) ;
+                  break;
 
                 case 'bu':
-                 val = ((val << 24) >>> 24) ;
-                 break;
+                  val = BigInt.asUintN(8, val) ;
+                  break;
 
                 case 'h':
-                 val = val & 0xFFFF ;
-                 if (val & 0x8000)
-                 {
-                         val = 0xFFFF0000 | val ;
-                         val = (val >>> 0)
-                 }
-                 break;
+                  val = BigInt.asIntN(16, val) ;
+                  break;
 
                 case 'hu':
-                 val = ((val << 16) >>> 16) ;
-                 break;
+                  val = BigInt.asUintN(16, val) ;
+                  break;
+
+                case 'w':
+                  val = BigInt.asIntN(32, val) ;
+                  break;
+
+                case 'wu':
+                  val = BigInt.asUintN(32, val) ;
+                  break;
 
                 default:
-                 break;
+                  break;
         }
 
         return val ;

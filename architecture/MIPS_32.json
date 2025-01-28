@@ -573,8 +573,8 @@
             "sp"
           ],
           "nbits": "32",
-          "value": 268435452,
-          "default_value": 268435452,
+          "value": "268435452",
+          "default_value": "268435452",
           "properties": [
             "read",
             "write",
@@ -601,8 +601,8 @@
             "ra"
           ],
           "nbits": "32",
-          "value": 4294967295,
-          "default_value": 4294967295,
+          "value": "4294967295",
+          "default_value": "4294967295",
           "properties": [
             "read",
             "write"

@@ -44,8 +44,8 @@
             "PC"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write",
@@ -65,8 +65,8 @@
             "zero"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "ignore_write"
@@ -78,8 +78,8 @@
             "ra"
           ],
           "nbits": "32",
-          "value": 4294967295,
-          "default_value": 4294967295,
+          "value": "4294967295",
+          "default_value": "4294967295",
           "properties": [
             "read",
             "write"
@@ -91,8 +91,8 @@
             "sp"
           ],
           "nbits": "32",
-          "value": 268435452,
-          "default_value": 268435452,
+          "value": "268435453",
+          "default_value": "268435453",
           "properties": [
             "read",
             "write",
@@ -105,8 +105,8 @@
             "gp"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write",
@@ -119,8 +119,8 @@
             "tp"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write"
@@ -132,8 +132,8 @@
             "t0"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write"
@@ -145,8 +145,8 @@
             "t1"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write"
@@ -158,8 +158,8 @@
             "t2"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write"
@@ -172,8 +172,8 @@
             "s0"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write",
@@ -187,8 +187,8 @@
             "s1"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write",
@@ -201,8 +201,8 @@
             "a0"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write"
@@ -214,8 +214,8 @@
             "a1"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write"
@@ -227,8 +227,8 @@
             "a2"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write"
@@ -240,8 +240,8 @@
             "a3"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write"
@@ -253,8 +253,8 @@
             "a4"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write"
@@ -266,8 +266,8 @@
             "a5"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write"
@@ -279,8 +279,8 @@
             "a6"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write"
@@ -292,8 +292,8 @@
             "a7"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write"
@@ -305,8 +305,8 @@
             "s2"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write",
@@ -319,8 +319,8 @@
             "s3"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write",
@@ -333,8 +333,8 @@
             "s4"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write",
@@ -347,8 +347,8 @@
             "s5"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write",
@@ -361,8 +361,8 @@
             "s6"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write",
@@ -375,8 +375,8 @@
             "s7"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write",
@@ -389,8 +389,8 @@
             "s8"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write",
@@ -403,8 +403,8 @@
             "s9"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write",
@@ -417,8 +417,8 @@
             "s10"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write",
@@ -431,8 +431,8 @@
             "s11"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write",
@@ -445,8 +445,8 @@
             "t3"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write"
@@ -458,8 +458,8 @@
             "t4"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write"
@@ -471,8 +471,8 @@
             "t5"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write"
@@ -484,8 +484,8 @@
             "t6"
           ],
           "nbits": "32",
-          "value": 0,
-          "default_value": 0,
+          "value": "0",
+          "default_value": "0",
           "properties": [
             "read",
             "write"
@@ -1188,7 +1188,7 @@
           "stopbit": 7
         }
       ],
-      "definition": "rd = PC + (inm << 12);",
+      "definition": "rd = PC + (inm << 12n);",
       "separated": [
         false,
         false,
@@ -1245,7 +1245,7 @@
           "stopbit": 15
         }
       ],
-      "definition": "if (rs1 === rs2)\n PC = PC + ((inm << 16) >> 14); ",
+      "definition": "if (rs1 === rs2)\n PC = PC + ((inm << 16n) >> 14n); ",
       "separated": [
         false,
         false,
@@ -1304,7 +1304,7 @@
           "valueField": "101"
         }
       ],
-      "definition": "if (capi_uint2int(rs1) >= capi_uint2int(rs2))\n PC = PC + ((inm << 16) >> 14);",
+      "definition": "if (capi_uint2int(rs1) >= capi_uint2int(rs2))\n PC = PC + ((inm << 16n) >> 14n);",
       "separated": [
         false,
         true,
@@ -1363,7 +1363,7 @@
           "valueField": "111"
         }
       ],
-      "definition": "if (capi_int2uint(rs1) > capi_int2uint(rs2))\n PC = PC + ((inm << 16) >> 14);",
+      "definition": "if (capi_int2uint(rs1) > capi_int2uint(rs2))\n PC = PC + ((inm << 16n) >> 14n);",
       "separated": [
         false,
         true,
@@ -1422,7 +1422,7 @@
           "valueField": "100"
         }
       ],
-      "definition": "if (capi_uint2int(rs1) < capi_uint2int(rs2))\n PC = PC + ((inm << 16) >> 14);",
+      "definition": "if (capi_uint2int(rs1) < capi_uint2int(rs2))\n PC = PC + ((inm << 16n) >> 14n);",
       "separated": [
         false,
         true,
@@ -1481,7 +1481,7 @@
           "valueField": "110"
         }
       ],
-      "definition": "if (capi_int2uint(rs1) < capi_int2uint(rs2))\n PC = PC + ((inm << 16) >> 14);",
+      "definition": "if (capi_int2uint(rs1) < capi_int2uint(rs2))\n PC = PC + ((inm << 16n) >> 14n);",
       "separated": [
         false,
         true,
@@ -1540,7 +1540,7 @@
           "valueField": "001"
         }
       ],
-      "definition": "if (rs1 !== rs2)\n PC = PC + ((inm << 16) >> 14);",
+      "definition": "if (rs1 !== rs2)\n PC = PC + ((inm << 16n) >> 14n);",
       "separated": [
         false,
         true,
@@ -1600,7 +1600,7 @@
           "stopbit": 7
         }
       ],
-      "definition": "if (rs2 != 0)\n { rd = (rs1 >> 0) / (rs2 >> 0); }\n else { capi_raise('Division by zero not allowed'); }",
+      "definition": "if (rs2 != 0)\n { rd = ((rs1 >> 0n) / (rs2 >> 0n)); }\n else { capi_raise('Division by zero not allowed'); }",
       "separated": [
         false,
         false,
@@ -1636,7 +1636,7 @@
           "valueField": "001100"
         }
       ],
-      "definition": "switch(a7){\ncase 1:\ncapi_print_int('a0');\nbreak;\ncase 2:\ncapi_print_float('fa0');\nbreak;\ncase 3:\ncapi_print_double('fa0');\nbreak;\ncase 4:\ncapi_print_string('a0');\nbreak;\ncase 5:\ncapi_read_int('a0');\nbreak;\ncase 6:\ncapi_read_float('fa0');\nbreak;\ncase 7:\ncapi_read_double('fa0');\nbreak;\ncase 8:\ncapi_read_string('a0', 'a1');\nbreak;\ncase 9:\ncapi_sbrk('a0', 'a0');\nbreak;\ncase 10:\ncapi_exit();\nbreak;\ncase 11:\ncapi_print_char('a0');\nbreak;\ncase 12:\ncapi_read_char('a0');\nbreak;\n}",
+      "definition": "switch(a7){\ncase 1n:\ncapi_print_int('a0');\nbreak;\ncase 2n:\ncapi_print_float('fa0');\nbreak;\ncase 3n:\ncapi_print_double('fa0');\nbreak;\ncase 4n:\ncapi_print_string('a0');\nbreak;\ncase 5n:\ncapi_read_int('a0');\nbreak;\ncase 6n:\ncapi_read_float('fa0');\nbreak;\ncase 7n:\ncapi_read_double('fa0');\nbreak;\ncase 8n:\ncapi_read_string('a0', 'a1');\nbreak;\ncase 9n:\ncapi_sbrk('a0', 'a0');\nbreak;\ncase 10n:\ncapi_exit();\nbreak;\ncase 11n:\ncapi_print_char('a0');\nbreak;\ncase 12n:\ncapi_read_char('a0');\nbreak;\n}",
       "help": ""
     },
     {
@@ -2693,7 +2693,7 @@
           "stopbit": 7
         }
       ],
-      "definition": " var isnotalign = capi_bad_align(rs1+inm, 'd');\n if (isnotalign) { capi_raise('The memory must be align'); }\n var val1 = capi_mem_read(rs1+inm, 'w', rd_name);\n var val2 = capi_mem_read(rs1+inm+4, 'w', rd_name);\n var buf = new ArrayBuffer(8);\n var arr = (new Uint32Array(buf));\n arr[1] = val1;\n arr[0] = val2;\n rd = (new Float64Array(buf))[0];",
+      "definition": " var isnotalign = capi_bad_align(rs1+inm, 'd');\n if (isnotalign) { capi_raise('The memory must be align'); }\n var val1 = capi_mem_read(rs1+inm, 'w', rd_name);\n var val2 = capi_mem_read(rs1+inm+4n, 'w', rd_name);\n var buf = new ArrayBuffer(8);\n var arr = (new Uint32Array(buf));\n arr[1] = Number(val1);\n arr[0] = Number(val2);\n rd = (new Float64Array(buf))[0];",
       "separated": [
         false,
         false,
@@ -3983,7 +3983,7 @@
           "stopbit": 0
         }
       ],
-      "definition": "var val = capi_split_double(ft, 0);\n capi_mem_write(base+off, val, 'w', ft_name);\n val = capi_split_double(ft, 1);\n capi_mem_write(base+off+4, val, 'w', ft_name);",
+      "definition": "var val = capi_split_double(ft, 0);\n capi_mem_write(base+off, val, 'w', ft_name);\n val = capi_split_double(ft, 1);\n capi_mem_write(base+off+4n, val, 'w', ft_name);",
       "separated": [
         false,
         true,
@@ -4729,7 +4729,7 @@
           "valueField": "000"
         }
       ],
-      "definition": "rd = PC;\n PC = (rs1+inm)&~1;\n capi_callconv_end(); capi_drawstack_end(PC);",
+      "definition": "rd = PC;\n PC = (rs1+inm)&~1n;\n capi_callconv_end(); capi_drawstack_end(PC);",
       "separated": [
         false,
         false,
@@ -4979,7 +4979,7 @@
           "stopbit": 7
         }
       ],
-      "definition": "rd = inm << 12;",
+      "definition": "rd = inm << 12n;",
       "separated": [
         false,
         false,
@@ -5152,7 +5152,7 @@
           "stopbit": 7
         }
       ],
-      "definition": "rd = ((rs1 * rs2) >>> 32);",
+      "definition": "rd = BigInt.asIntN(32, (BigInt.asIntN(64, BigInt.asIntN(32, BigInt(rs1)) * BigInt.asIntN(32, BigInt(rs2))) >> 32n))",
       "separated": [
         false,
         false,
@@ -5662,7 +5662,7 @@
           "valueField": "001"
         }
       ],
-      "definition": "rd = capi_int2uint(rs1 << rs2);",
+      "definition": "const shiftAmount = rs2 & 0x1Fn; rd = (rs1 << shiftAmount) & 0xFFFFFFFFn;",
       "separated": [
         false,
         false,
@@ -5947,7 +5947,7 @@
           "valueField": "011"
         }
       ],
-      "definition": "rd = ((rs1 >>> 0) < (rs2 >>> 0)) ? 1 : 0;",
+      "definition": "rd = ((rs1 & 0xFFFFFFFFn) < (rs2 & 0xFFFFFFFFn)) ? 1n : 0n;",
       "separated": [
         false,
         false,
@@ -6007,7 +6007,7 @@
           "valueField": "101"
         }
       ],
-      "definition": "rd = capi_int2uint(rs1 >> rs2);",
+      "definition": "const temp = BigInt.asIntN(32, BigInt(rs1)) >> BigInt(rs2); rd = capi_int2uint(temp)",
       "separated": [
         false,
         false,
@@ -6129,7 +6129,7 @@
           "valueField": "101"
         }
       ],
-      "definition": "rd = rs1 >> rs2;",
+      "definition": "const shiftAmount = rs2 & 0x1Fn; rd = (rs1 >> shiftAmount) & 0xFFFFFFFFn;",
       "separated": [
         false,
         false,

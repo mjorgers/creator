@@ -7,7 +7,7 @@
       "loaded": "00000000101101010101000011100011",
       "user": null,
       "_rowVariant": "",
-      "visible": false,
+      "visible": true,
       "globl": true
     },
     {
@@ -17,7 +17,7 @@
       "loaded": "00000000000001011000010100010011",
       "user": null,
       "_rowVariant": "",
-      "visible": false
+      "visible": true
     },
     {
       "Break": null,
@@ -26,7 +26,7 @@
       "loaded": "00000000000000001000000001100111",
       "user": null,
       "_rowVariant": "",
-      "visible": false,
+      "visible": true,
       "globl": false
     },
     {
@@ -36,7 +36,7 @@
       "loaded": "00000000101001011101000011100011",
       "user": null,
       "_rowVariant": "",
-      "visible": false,
+      "visible": true,
       "globl": true
     },
     {
@@ -46,7 +46,7 @@
       "loaded": "00000000000001011000010100010011",
       "user": null,
       "_rowVariant": "",
-      "visible": false
+      "visible": true
     },
     {
       "Break": null,
@@ -55,7 +55,7 @@
       "loaded": "00000000000000001000000001100111",
       "user": null,
       "_rowVariant": "",
-      "visible": false,
+      "visible": true,
       "globl": false
     }
   ],

@@ -1,0 +1,99 @@
+2-bit range:
+  Decimal: -2 to 1
+  Hex:    -0x2 to 0x1
+  Binary:  10 to 01
+
+3-bit range:
+  Decimal: -4 to 3
+  Hex:    -0x4 to 0x3
+  Binary:  100 to 011
+
+4-bit range:
+  Decimal: -8 to 7
+  Hex:    -0x8 to 0x7
+  Binary:  1000 to 0111
+
+5-bit range:
+  Decimal: -16 to 15
+  Hex:    -0x10 to 0xf
+  Binary:  10000 to 01111
+
+6-bit range:
+  Decimal: -32 to 31
+  Hex:    -0x20 to 0x1f
+  Binary:  100000 to 011111
+
+7-bit range:
+  Decimal: -64 to 63
+  Hex:    -0x40 to 0x3f
+  Binary:  1000000 to 0111111
+
+8-bit range:
+  Decimal: -128 to 127
+  Hex:    -0x80 to 0x7f
+  Binary:  10000000 to 01111111
+
+9-bit range:
+  Decimal: -256 to 255
+  Hex:    -0x100 to 0xff
+  Binary:  100000000 to 011111111
+
+10-bit range:
+  Decimal: -512 to 511
+  Hex:    -0x200 to 0x1ff
+  Binary:  1000000000 to 0111111111
+
+11-bit range:
+  Decimal: -1024 to 1023
+  Hex:    -0x400 to 0x3ff
+  Binary:  10000000000 to 01111111111
+
+12-bit range:
+  Decimal: -2048 to 2047
+  Hex:    -0x800 to 0x7ff
+  Binary:  100000000000 to 011111111111
+
+13-bit range:
+  Decimal: -4096 to 4095
+  Hex:    -0x1000 to 0xfff
+  Binary:  1000000000000 to 0111111111111
+
+14-bit range:
+  Decimal: -8192 to 8191
+  Hex:    -0x2000 to 0x1fff
+  Binary:  10000000000000 to 01111111111111
+
+15-bit range:
+  Decimal: -16384 to 16383
+  Hex:    -0x4000 to 0x3fff
+  Binary:  100000000000000 to 011111111111111
+
+16-bit range:
+  Decimal: -32768 to 32767
+  Hex:    -0x8000 to 0x7fff
+  Binary:  1000000000000000 to 0111111111111111
+
+17-bit range:
+  Decimal: -65536 to 65535
+  Hex:    -0x10000 to 0xffff
+  Binary:  10000000000000000 to 01111111111111111
+
+18-bit range:
+  Decimal: -131072 to 131071
+  Hex:    -0x20000 to 0x1ffff
+  Binary:  100000000000000000 to 011111111111111111
+
+19-bit range:
+  Decimal: -262144 to 262143
+  Hex:    -0x40000 to 0x3ffff
+  Binary:  1000000000000000000 to 0111111111111111111
+
+20-bit range:
+  Decimal: -524288 to 524287
+  Hex:    -0x80000 to 0x7ffff
+  Binary:  10000000000000000000 to 01111111111111111111
+
+32-bit range:
+  Decimal: -2147483648 to 2147483647
+  Hex:    -0x80000000 to 0x7fffffff
+  Binary:  10000000000000000000000000000000 to 01111111111111111111111111111111

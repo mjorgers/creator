@@ -427,6 +427,7 @@ try
   }
 
   /*console.log*/
+  //TODO: Use the new logger (creator_logger.js)
   function console_log(m){
     if(app._data.c_debug){
       console.log(m);
@@ -471,12 +472,6 @@ try
       textarea_arch_editor.setValue(app._data.arch_code);
       textarea_arch_editor.setSize("auto", "70vh");
     }
-  }
-
-
-  //Binary string to integer number
-  function binaryStringToInt( b ) {
-    return parseInt(b, 2);
   }
 
 }

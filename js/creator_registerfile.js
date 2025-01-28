@@ -105,24 +105,24 @@ function readRegister ( indexComp, indexElem, register_type )
   if ((architecture.components[indexComp].type == "ctrl_registers") ||
       (architecture.components[indexComp].type == "int_registers"))
   {
-    console_log(parseInt(architecture.components[indexComp].elements[indexElem].value));
-    return parseInt(architecture.components[indexComp].elements[indexElem].value);
+    console_log(`Reading ${architecture.components[indexComp].type} [${indexComp}][${indexElem}] ${architecture.components[indexComp].elements[indexElem].name.join('|')}: ${architecture.components[indexComp].elements[indexElem].value}`, "DEBUG");
+    return bi_intToBigInt(architecture.components[indexComp].elements[indexElem].value);
   }
 
   if (architecture.components[indexComp].type == "fp_registers")
   {
     if(architecture.components[indexComp].double_precision === false){
-      //return parseFloat((architecture.components[indexComp].elements[indexElem].value).toString()); //TODO: big_int2hex -> hex2float //TODO
-      console_log(bi_BigIntTofloat(architecture.components[indexComp].elements[indexElem].value));
-      return bi_BigIntTofloat(architecture.components[indexComp].elements[indexElem].value);
+      const value = bi_BigIntTofloat(architecture.components[indexComp].elements[indexElem].value);
+      console_log(`Reading float register [${indexComp}][${indexElem}] ${architecture.components[indexComp].elements[indexElem].name.join('|')}: ${value}`, "DEBUG");
+      return value;
     }
     else{
       
       if (architecture.components[indexComp].double_precision_type == "linked") 
       {
-        //return parseFloat((architecture.components[indexComp].elements[indexElem].value).toString()); //TODO: big_int2hex -> hex2float //TODO
-        console_log(bi_BigIntTodouble(architecture.components[indexComp].elements[indexElem].value));
-        return bi_BigIntTodouble(architecture.components[indexComp].elements[indexElem].value);
+        const value = bi_BigIntTodouble(architecture.components[indexComp].elements[indexElem].value);
+        console_log(`Reading linked double register [${indexComp}][${indexElem}] ${architecture.components[indexComp].elements[indexElem].name.join('|')}: ${value}`, "DEBUG");
+        return value;
       }
       else
       {
@@ -130,19 +130,17 @@ function readRegister ( indexComp, indexElem, register_type )
           register_type = "DFP-Reg";
         }
         if (register_type === 'SFP-Reg'){
-          //return parseFloat((architecture.components[indexComp].elements[indexElem].value).toString()); //TODO: big_int2hex -> hex2float //TODO
-          console_log(bi_BigIntTofloat(architecture.components[indexComp].elements[indexElem].value));
-          return bi_BigIntTofloat(architecture.components[indexComp].elements[indexElem].value);
+          const value = bi_BigIntTofloat(architecture.components[indexComp].elements[indexElem].value);
+          console_log(`Reading single-precision register [${indexComp}][${indexElem}] ${architecture.components[indexComp].elements[indexElem].name.join('|')}: ${value}`, "DEBUG");
+          return value;
         }
         if (register_type === 'DFP-Reg'){
-          //return parseFloat((architecture.components[indexComp].elements[indexElem].value).toString()); //TODO: big_int2hex -> hex2float //TODO
-          console_log(bi_BigIntTodouble(architecture.components[indexComp].elements[indexElem].value));
-          return bi_BigIntTodouble(architecture.components[indexComp].elements[indexElem].value);
+          const value = bi_BigIntTodouble(architecture.components[indexComp].elements[indexElem].value);
+          console_log(`Reading double-precision register [${indexComp}][${indexElem}] ${architecture.components[indexComp].elements[indexElem].name.join('|')}: ${value}`, "DEBUG");
+          return value;
         }
       }
-
     }
-
   }
 }
 
@@ -176,7 +174,8 @@ function writeRegister ( value, indexComp, indexElem, register_type )
 
         throw packExecute(true, 'The register '+ architecture.components[indexComp].elements[indexElem].name.join(' | ') +' cannot be written', 'danger', null);
       }
-
+      // value should always be a bigint (?)
+      // calling the conversion function doesn't do any harm anyway
       architecture.components[indexComp].elements[indexElem].value = bi_intToBigInt(value,10);
       creator_callstack_writeRegister(indexComp, indexElem);
 

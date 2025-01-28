@@ -1,4 +1,4 @@
-
+/* eslint-disable no-unused-vars */
 /*
  *  Copyright 2018-2024 Felix Garcia Carballeira, Alejandro Calderon Mateos, Diego Camarmas Alonso
  *
@@ -19,18 +19,23 @@
  *
  */
 
-
-function bi_intToBigInt ( int_value, int_base )
-{
-  return BigInt(parseInt(int_value) >>> 0, int_base) ;
+function bi_intToBigInt(int_value, int_base) {
+  // Convert input to BigInt, respecting the base
+  const bigIntValue = BigInt(int_value.toString(int_base || 10));
+  
+  // Normalize to unsigned integer
+  // This has to be the size of the register it's saving to.
+  // If the number is positive it doesn't matter, but when converting
+  // negative numbers, if the value is not set to the size of the register
+  // it will break.
+  return BigInt.asUintN(register_size_bits, bigIntValue); 
 }
-
 
 function bi_floatToBigInt ( float_value )
 {
-  var BigInt_value = null ;
-  var bin          = float2bin(float_value);
-  var hex          = bin2hex(bin);
+  let BigInt_value = null ;
+  let bin          = float2bin(float_value);
+  let hex          = bin2hex(bin);
 
   BigInt_value = BigInt("0x" + hex);
 
@@ -39,7 +44,7 @@ function bi_floatToBigInt ( float_value )
 
 function bi_BigIntTofloat ( big_int_value )
 {
-  var hex = big_int_value.toString(16);
+  let hex = big_int_value.toString(16);
 
   if (hex.length > 8) 
   {
@@ -52,9 +57,9 @@ function bi_BigIntTofloat ( big_int_value )
 
 function bi_doubleToBigInt ( double_value )
 {
-  var BigInt_value = null ;
-  var bin          = double2bin(double_value);
-  var hex          = bin2hex(bin);
+  let BigInt_value = null ;
+  let bin          = double2bin(double_value);
+  let hex          = bin2hex(bin);
 
   BigInt_value = BigInt("0x" + hex);
 
@@ -63,7 +68,7 @@ function bi_doubleToBigInt ( double_value )
 
 function bi_BigIntTodouble ( big_int_value )
 {
-  var hex = (big_int_value.toString(16)).padStart(16, "0");
+  let hex = (big_int_value.toString(16)).padStart(16, "0");
 
   return hex2double("0x" + hex);
 }
@@ -74,9 +79,9 @@ function register_value_deserialize( architecture )
 {
   //var architecture = architecture;
 
-  for (var i=0; i<architecture.components.length; i++)
+  for (let i=0; i<architecture.components.length; i++)
   {
-    for (var j=0; j< architecture.components[i].elements.length; j++)
+    for (let j=0; j< architecture.components[i].elements.length; j++)
     {
       if (architecture.components[i].type != "fp_registers"){
         architecture.components[i].elements[j].value = bi_intToBigInt(architecture.components[i].elements[j].value,10) ;
@@ -104,14 +109,14 @@ function register_value_deserialize( architecture )
 //Number/Bigint to string
 function register_value_serialize( architecture )
 {
-  var aux_architecture = jQuery.extend(true, {}, architecture);
+  let aux_architecture = jQuery.extend(true, {}, architecture);
 
-  for (var i=0; i<architecture.components.length; i++)
+  for (let i=0; i<architecture.components.length; i++)
   {
-    for (var j=0; j < architecture.components[i].elements.length; j++)
+    for (let j=0; j < architecture.components[i].elements.length; j++)
     {
       if (architecture.components[i].type != "fp_registers"){
-        aux_architecture.components[i].elements[j].value = parseInt(architecture.components[i].elements[j].value);
+        aux_architecture.components[i].elements[j].value = architecture.components[i].elements[j].value.toString();
       }
       else{
         aux_architecture.components[i].elements[j].value = bi_BigIntTofloat(architecture.components[i].elements[j].value);
@@ -120,7 +125,7 @@ function register_value_serialize( architecture )
       if (architecture.components[i].double_precision !== true)
       {
         if (architecture.components[i].type != "fp_registers"){
-          aux_architecture.components[i].elements[j].default_value = parseInt(architecture.components[i].elements[j].default_value);
+          aux_architecture.components[i].elements[j].default_value = architecture.components[i].elements[j].default_value.toString();
         }
         else{
           aux_architecture.components[i].elements[j].default_value = bi_BigIntTofloat(architecture.components[i].elements[j].default_value);
