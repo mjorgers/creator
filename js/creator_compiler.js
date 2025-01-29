@@ -585,7 +585,7 @@ function assembly_compiler()
           var signatureParts    = pending_instructions[i].signature;
           var signatureRawParts = pending_instructions[i].signatureRaw;
           var instructionParts  = (pending_instructions[i].instruction).split(' ');
-          console.table(instructions);
+          console_log(JSON.stringify(instructions, null, 2), "DEBUG");
 
           for (var j = 0; j < signatureParts.length && exit === 0; j++)
           {

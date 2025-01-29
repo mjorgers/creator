@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /*
  *  Copyright 2018-2025 Felix Garcia Carballeira, Alejandro Calderon Mateos, Diego Camarmas Alonso
  *
@@ -27,7 +26,9 @@ function bi_intToBigInt(int_value, int_base) {
   // This has to be the size of the register it's saving to.
   // If the number is positive it doesn't matter, but when converting
   // negative numbers, if the value is not set to the size of the register
-  // it will break.
+  // it will break due to 2's complement representation being dependent on
+  // the size of the register.
+  // E.g. -1 in a 4-bit register is 1111, but in an 8-bit register it's 11111111.
   return BigInt.asUintN(register_size_bits, bigIntValue); 
 }
 

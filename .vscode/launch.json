@@ -27,6 +27,7 @@
             "args": [
                 "-a", "./architecture/RISC_V_RV32IMFD.json",
                 "-s", "./test/riscv/correct/examples/test_riscv_example_008.s",
+                "-o", "pretty",
                 "--debug"
             ]
         },

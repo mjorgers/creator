@@ -1600,7 +1600,7 @@
           "stopbit": 7
         }
       ],
-      "definition": "if (rs2 != 0)\n { rd = ((rs1 >> 0n) / (rs2 >> 0n)); }\n else { capi_raise('Division by zero not allowed'); }",
+      "definition": "if (rs2 != 0)\n { rd = BigInt.asIntN(32, (BigInt.asIntN(32, BigInt(rs1)) / BigInt.asIntN(32, BigInt(rs2)))); }\n else { capi_raise('Division by zero not allowed'); }",
       "separated": [
         false,
         false,
@@ -5213,7 +5213,7 @@
           "stopbit": 7
         }
       ],
-      "definition": "rd = ((rs1 * capi_int2uint(rs2)) >>> 32);",
+      "definition": "rd = BigInt.asIntN(32, (BigInt.asIntN(64, BigInt.asIntN(32, BigInt(rs1)) * BigInt.asUintN(32, BigInt(rs2))) >> 32n))",
       "separated": [
         false,
         false,
@@ -5274,7 +5274,7 @@
           "stopbit": 7
         }
       ],
-      "definition": "rd = ((capi_int2uint(rs1) * capi_int2uint(rs2)) >>> 32);",
+      "definition": "rd = BigInt.asIntN(32, (BigInt.asUintN(64, BigInt.asUintN(32, BigInt(rs1)) * BigInt.asUintN(32, BigInt(rs2))) >> 32n));",
       "separated": [
         false,
         false,

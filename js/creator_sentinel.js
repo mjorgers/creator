@@ -474,7 +474,7 @@ function creator_callstack_do_transition ( doAction, indexComponent, indexElemen
     {
         var elto = creator_callstack_getTop();
         if (elto.ok == false) {
-            console_log('creator_callstack_do_transition: ' + elto.msg) ;
+            console_log('creator_callstack_do_transition: ' + elto.msg, "ERROR") ;
             return '' ;
         }
 

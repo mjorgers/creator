@@ -18,6 +18,8 @@
  *
  */
 
+const { parse } = require("yargs");
+
 
   /* 
    * Representation
@@ -132,6 +134,8 @@
 
   function uint_to_float32 ( value )
   {
+    valuehex = value.toString(16);
+    console_log("uint_to_float32: " + valuehex, "WARN");
     if (validInteger(value)) {
       var buf = new ArrayBuffer(4) ;
       value = Number(value);
@@ -144,13 +148,10 @@
 
   function float32_to_uint ( value )
   {
-    if (validInteger(value)) {
-      var buf = new ArrayBuffer(4) ;
-      (new Float32Array(buf))[0] = value ;
-      return (new Uint32Array(buf))[0];
-    } else {
-      return -1;
-    }
+    var buf = new ArrayBuffer(4) ;
+    (new Float32Array(buf))[0] = value ;
+    return (new Uint32Array(buf))[0];
+
   }
 
   function uint_to_float64 ( value0, value1 )
@@ -168,17 +169,14 @@
 
   function float64_to_uint ( value )
   {
-    if (validInteger(value)) {
-      var buf = new ArrayBuffer(8) ;
-      (new Float64Array(buf))[0] = value ;
-      return (new Uint32Array(buf)) ;
-    } else {
-      return -1;
-    }
+    var buf = new ArrayBuffer(8) ;
+    (new Float64Array(buf))[0] = value ;
+    return (new Uint32Array(buf)) ;
   }
 
   function float2bin ( number )
   {
+    number = parseFloat(number);
     var i, result = "";
     var dv = new DataView(new ArrayBuffer(4));
 
@@ -197,6 +195,7 @@
 
   function double2bin ( number )
   {
+    number = parseFloat(number); // parseFloat works with double precision
     var i, result = "";
     var dv = new DataView(new ArrayBuffer(8));
 
@@ -323,17 +322,4 @@
     }
 
     return value2;
-  }
-
-
-  /* 
-   *  Debug
-   */
-
-  var creator_debug = false ;
-  
-  function console_log(m){
-    if(creator_debug){
-      console.log(m);
-    }
   }
