@@ -18,9 +18,6 @@
  *
  */
 
-const { parse } = require("yargs");
-
-
   /* 
    * Representation
    */
@@ -134,8 +131,6 @@ const { parse } = require("yargs");
 
   function uint_to_float32 ( value )
   {
-    valuehex = value.toString(16);
-    console_log("uint_to_float32: " + valuehex, "WARN");
     if (validInteger(value)) {
       var buf = new ArrayBuffer(4) ;
       value = Number(value);

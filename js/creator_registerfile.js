@@ -262,23 +262,23 @@ function writeRegister ( value, indexComp, indexElem, register_type )
 /*Modifies double precision registers according to simple precision registers*/
 function updateDouble(comp, elem)
 {
-  for (var i = 0; i < architecture.components.length; i++)
+  for (let i = 0; i < architecture.components.length; i++)
   {
     if (architecture.components[i].double_precision === true && architecture.components[i].double_precision_type == "linked")
     {
-      for (var j = 0; j < architecture.components[i].elements.length; j++)
+      for (let j = 0; j < architecture.components[i].elements.length; j++)
       {
         if (architecture.components[comp].elements[elem].name.includes(architecture.components[i].elements[j].simple_reg[0]) !== false){
-          var simple = bin2hex(float2bin(readRegister(comp, elem)));
-          var double = bin2hex(double2bin(readRegister(i, j))).substr(8, 15);
-          var newDouble = simple + double;
+          const simple = bin2hex(float2bin(readRegister(comp, elem)));
+          const double = bin2hex(double2bin(readRegister(i, j))).substr(8, 15);
+          const newDouble = simple + double;
 
           architecture.components[i].elements[j].value = bi_doubleToBigInt(hex2double("0x"+newDouble));
         }
         if (architecture.components[comp].elements[elem].name.includes(architecture.components[i].elements[j].simple_reg[1]) !== false){
-          var simple = bin2hex(float2bin(readRegister(comp, elem)));
-          var double = bin2hex(double2bin(readRegister(i, j))).substr(0, 8);
-          var newDouble = double + simple;
+          const simple = bin2hex(float2bin(readRegister(comp, elem)));
+          const double = bin2hex(double2bin(readRegister(i, j))).substr(0, 8);
+          const newDouble = double + simple;
 
           architecture.components[i].elements[j].value = bi_doubleToBigInt(hex2double("0x"+newDouble));
         }

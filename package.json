@@ -3,9 +3,11 @@
   "description": "Check CREATOR",
   "author": "dcamarma@inf.uc3m.es",
   "version": "4.1",
+  "type": "module",
   "scripts": {
     "test": "./run_test.sh",
-    "build": "./mk_min.sh"
+    "build": "python build.py",
+    "serve": "python -m http.server 8000"
   },
   "dependencies": {
     "colors": "^1.4.0",

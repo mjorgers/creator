@@ -30,7 +30,7 @@
 try
 {
 
-  window.app = new Vue({
+  app = new Vue({
 
     /**********
      * DOM ID *
@@ -43,7 +43,8 @@ try
     /************
      * Vue Data *
      ************/
-    data: {
+    data: function() {
+return {
 
       /********************/
       /* Global Variables */
@@ -259,7 +260,8 @@ try
       target_port: "", //TODO: include into flash component - modal info
       flash_url: "http://localhost:8080", //TODO: include into flash component - modal info
 
-    },
+    };
+},
 
 
 
@@ -477,4 +479,12 @@ catch(e)
   setTimeout(function(){
     location.reload(true)
   }, 3000);
+}
+
+let creator_debug = false;
+
+function console_log(m){
+    if (creator_debug){
+        console.log(m);
+    }
 }

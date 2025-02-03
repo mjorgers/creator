@@ -58,6 +58,10 @@ function execute_instruction ( )
 
   var error = 0;
   var index;
+  let pc_reg;
+  let epc_reg;
+  let pc_reg_value;
+  let re;
 
   do
   {
@@ -113,10 +117,10 @@ function execute_instruction ( )
         draw.warning.push(execution_index);
 
         //Save register PC (in EPC), STATUS
-        var epc_reg = crex_findReg_bytag ("exception_program_counter");
-        var pc_reg  = crex_findReg_bytag ("program_counter");
+        epc_reg = crex_findReg_bytag ("exception_program_counter");
+        pc_reg  = crex_findReg_bytag ("program_counter");
 
-        var pc_reg_value = readRegister(pc_reg.indexComp, pc_reg.indexElem);
+        pc_reg_value = readRegister(pc_reg.indexComp, pc_reg.indexElem);
         writeRegister(pc_reg_value, epc_reg.indexComp, epc_reg.indexElem);
 
         //TODO: get new PC
@@ -136,9 +140,9 @@ function execute_instruction ( )
     var instructionExec = instructions[execution_index].loaded;
     var instructionExecParts = instructionExec.split(' ');
 
-    var signatureDef;
-    var signatureParts;
-    var signatureRawParts;
+    let signatureDef;
+    let signatureParts = [];
+    let signatureRawParts = [];
 
     var binary;
     var nwords;
@@ -147,7 +151,7 @@ function execute_instruction ( )
 
     //Search the instruction to execute
     //TODO: move the instruction identification to the compiler stage, binary not
-    for (var i = 0; i < architecture.instructions.length; i++) {
+    for (let i = 0; i < architecture.instructions.length; i++) {
       var auxSig = architecture.instructions[i].signatureRaw.split(' ');
 
       var coStartbit;
@@ -155,8 +159,9 @@ function execute_instruction ( )
 
       var numCop = 0;
       var numCopCorrect = 0;
+      let match;
 
-      for (var y = 0; y < architecture.instructions[i].fields.length; y++) {
+      for (let y = 0; y < architecture.instructions[i].fields.length; y++) {
         if(architecture.instructions[i].fields[y].type == "co")
         {
           coStartbit = 31 - parseInt(architecture.instructions[i].fields[y].startbit);
@@ -168,7 +173,7 @@ function execute_instruction ( )
       {
         if(architecture.instructions[i].cop != null && architecture.instructions[i].cop != '')
         {
-          for (var j = 0; j < architecture.instructions[i].fields.length; j++)
+          for (let j = 0; j < architecture.instructions[i].fields.length; j++)
           {
             if (architecture.instructions[i].fields[j].type == "cop")
             {
@@ -185,7 +190,10 @@ function execute_instruction ( )
 
         var instruction_loaded    = architecture.instructions[i].signature_definition;
         var instruction_fields    = architecture.instructions[i].fields;
-        var instruction_nwords    = architecture.instructions[i].nwords;   
+        var instruction_nwords    = architecture.instructions[i].nwords;  
+        let bin; 
+        let value;
+        let value_len;
 
         for (var f = 0; f < instruction_fields.length; f++) 
         {
@@ -194,7 +202,7 @@ function execute_instruction ( )
 
           if (res != -1)
           {
-            var value = null;
+            value = null;
             re = new RegExp("[Ff]"+f, "g");
             switch(instruction_fields[f].type)
             {
@@ -204,19 +212,19 @@ function execute_instruction ( )
 
               //TODO: unify register type by register file on architecture
               case "INT-Reg":
-                var bin = instructionExec.substring(((instruction_nwords*31) - instruction_fields[f].startbit), ((instruction_nwords*32) - instruction_fields[f].stopbit));
+                bin = instructionExec.substring(((instruction_nwords*31) - instruction_fields[f].startbit), ((instruction_nwords*32) - instruction_fields[f].stopbit));
                 value = get_register_binary ("int_registers", bin);
                 break; 
               case "SFP-Reg":
-                var bin = instructionExec.substring(((instruction_nwords*31) - instruction_fields[f].startbit), ((instruction_nwords*32) - instruction_fields[f].stopbit));
+                bin = instructionExec.substring(((instruction_nwords*31) - instruction_fields[f].startbit), ((instruction_nwords*32) - instruction_fields[f].stopbit));
                 value = get_register_binary ("fp_registers", bin);
                 break; 
               case "DFP-Reg":
-                var bin = instructionExec.substring(((instruction_nwords*31) - instruction_fields[f].startbit), ((instruction_nwords*32) - instruction_fields[f].stopbit));
+                bin = instructionExec.substring(((instruction_nwords*31) - instruction_fields[f].startbit), ((instruction_nwords*32) - instruction_fields[f].stopbit));
                 value = get_register_binary ("fp_registers", bin);
                 break; 
               case "Ctrl-Reg":
-                var bin = instructionExec.substring(((instruction_nwords*31) - instruction_fields[f].startbit), ((instruction_nwords*32) - instruction_fields[f].stopbit));
+                bin = instructionExec.substring(((instruction_nwords*31) - instruction_fields[f].startbit), ((instruction_nwords*32) - instruction_fields[f].stopbit));
                 value = get_register_binary ("ctrl_registers", bin);
                 break; 
 
@@ -225,7 +233,7 @@ function execute_instruction ( )
               case "address":
               case "offset_bytes":
               case "offset_words":
-                var bin = "";
+                bin = "";
 
                 //Get binary
                 if(architecture.instructions[i].separated && architecture.instructions[i].separated[f] === true){
@@ -270,15 +278,13 @@ function execute_instruction ( )
         var signature = architecture.instructions[i].signature.replace(re, " ");
 
         re = new RegExp(signatureDef+"$");
-        var match = re.exec(signature);
-        var signatureParts = [];
-        for(var j = 1; j < match.length; j++){
+        match = re.exec(signature);
+        for(let j = 1; j < match.length; j++){
           signatureParts.push(match[j]);
         }
 
         match = re.exec(architecture.instructions[i].signatureRaw);
-        var signatureRawParts = [];
-        for(var j = 1; j < match.length; j++){
+        for(let j = 1; j < match.length; j++){
           signatureRawParts.push(match[j]);
         }
 
@@ -294,8 +300,8 @@ function execute_instruction ( )
     //END TODO
 
     //Increase PC
-    var pc_reg = crex_findReg_bytag ("program_counter");
-    word_size = parseInt(architecture.arch_conf[1].value) / 8;
+    pc_reg = crex_findReg_bytag ("program_counter");
+    let word_size = parseInt(architecture.arch_conf[1].value) / 8;
     writeRegister(readRegister(pc_reg.indexComp, pc_reg.indexElem) + BigInt(nwords * word_size), 0,0);
     console_log("auxDef: "+ auxDef, "DEBUG");
 
@@ -328,13 +334,13 @@ function execute_instruction ( )
       // Integer registers use BigInt type
       // Floating point registers use Number type
       // TODO: refactor this code
-      for (var i = 1; i < signatureRawParts.length; i++)
+      for (let i = 1; i < signatureRawParts.length; i++)
       {
         if (signatureParts[i] == "INT-Reg" || signatureParts[i] == "Ctrl-Reg")
           {
-            for (var j = 0; j < architecture.components.length; j++)
+            for (let j = 0; j < architecture.components.length; j++)
             {
-              for (var z = architecture.components[j].elements.length-1; z >= 0; z--)
+              for (let z = architecture.components[j].elements.length-1; z >= 0; z--)
               {
                 if (architecture.components[j].elements[z].name.includes(instructionExecParts[i]))
                 {
@@ -356,9 +362,9 @@ function execute_instruction ( )
           }
           else if (signatureParts[i] == "SFP-Reg" || signatureParts[i] == "DFP-Reg") 
             {
-              for (var j = 0; j < architecture.components.length; j++)
+              for (let j = 0; j < architecture.components.length; j++)
               {
-                for (var z = architecture.components[j].elements.length-1; z >= 0; z--)
+                for (let z = architecture.components[j].elements.length-1; z >= 0; z--)
                 {
                   if (architecture.components[j].elements[z].name.includes(instructionExecParts[i]))
                   {
@@ -412,23 +418,23 @@ function execute_instruction ( )
         }
       }
 
-      for (var elto in var_readings_definitions){
+      for (let elto in var_readings_definitions){
          readings_description = readings_description + var_readings_definitions[elto];
       }
-      for (var elto in var_readings_definitions_prev){
+      for (let elto in var_readings_definitions_prev){
          readings_description = readings_description + var_readings_definitions_prev[elto];
       }
-      for (var elto in var_readings_definitions_name){
+      for (let elto in var_readings_definitions_name){
          readings_description = readings_description + var_readings_definitions_name[elto];
       }
-      for (var elto in var_writings_definitions){
+      for (let elto in var_writings_definitions){
          writings_description = writings_description + var_writings_definitions[elto];
       }
 
       // writeRegister and readRegister direcly named include into the definition
-      for (var i = 0; i < architecture.components.length; i++)
+      for (let i = 0; i < architecture.components.length; i++)
       {
-        for (var j = architecture.components[i].elements.length-1; j >= 0; j--)
+        for (let j = architecture.components[i].elements.length-1; j >= 0; j--)
         {
           var clean_name = clean_string(architecture.components[i].elements[j].name[0], 'reg_');
           var clean_aliases = architecture.components[i].elements[j].name.map((x)=> clean_string(x, 'reg_')).join('|');
@@ -436,7 +442,7 @@ function execute_instruction ( )
           re = new RegExp( "(?:\\W|^)(((" + clean_aliases +") *=)[^=])", "g");
           if (auxDef.search(re) != -1){
             re = new RegExp("(" + clean_aliases + ")");
-            var reg_name = re.exec(auxDef)[0];
+            let reg_name = re.exec(auxDef)[0];
             clean_name = clean_string(reg_name, 'reg_');
             writings_description = writings_description+"\nwriteRegister("+ clean_name +", "+i+", "+j+", \""+ signatureParts[i] + "\");";
           }
@@ -444,7 +450,7 @@ function execute_instruction ( )
           re = new RegExp("([^a-zA-Z0-9])(?:" + clean_aliases + ")");
           if (auxDef.search(re) != -1){
             re = new RegExp("(" + clean_aliases + ")");
-            var reg_name = re.exec(auxDef)[0];
+            let reg_name = re.exec(auxDef)[0];
             clean_name = clean_string(reg_name, 'reg_');
             readings_description = readings_description + "var " + clean_name + "      = readRegister("+i+" ,"+j+", \""+ signatureParts[i] + "\");\n"
             readings_description = readings_description + "var " + clean_name + "_name = '" + clean_name + "';\n";
@@ -515,10 +521,10 @@ function execute_instruction ( )
     // Next instruction to execute
     if (error !== 1 && execution_index < instructions.length)
     {
-      for (var i = 0; i < instructions.length; i++)
+      for (let i = 0; i < instructions.length; i++)
       {
-        var pc_reg = crex_findReg_bytag ("program_counter");
-        var pc_reg_value = readRegister(pc_reg.indexComp, pc_reg.indexElem);
+        pc_reg = crex_findReg_bytag ("program_counter");
+        pc_reg_value = readRegister(pc_reg.indexComp, pc_reg.indexElem);
         if (parseInt(instructions[i].Address, 16) == pc_reg_value) {
           execution_index = i;
           draw.success.push(execution_index) ;
@@ -536,7 +542,7 @@ function execute_instruction ( )
 
     if ((execution_index >= instructions.length) && (run_program === 3))
     {
-      for (var i = 0; i < instructions.length; i++) {
+      for (let i = 0; i < instructions.length; i++) {
         draw.space.push(i);
       }
       draw.info=[];
@@ -544,7 +550,7 @@ function execute_instruction ( )
     }
     else if ((execution_index >= instructions.length) && (run_program != 3))
     {
-      for (var i = 0; i < instructions.length; i++){
+      for (let i = 0; i < instructions.length; i++){
         draw.space.push(i) ;
       }
       draw.info=[];
@@ -787,7 +793,7 @@ function stats_update ( type )
     }
   }
 
-  for (var i = 0; i < stats.length; i++){
+  for (let i = 0; i < stats.length; i++){
     stats[i].percentage = ((stats[i].number_instructions/totalStats)*100).toFixed(2);
   }
 }
@@ -854,7 +860,7 @@ function clk_cycles_update ( type )
   }
 
   //CLK Cycles
-  for (var i = 0; i < stats.length; i++){
+  for (let i = 0; i < stats.length; i++){
     clk_cycles[i].percentage = ((clk_cycles[i].clk_cycles/total_clk_cycles)*100).toFixed(2);
   }
 }
@@ -929,13 +935,13 @@ function kbd_read_double ( keystroke, params )
 
 function kbd_read_string ( keystroke, params )
 {
-  var value = "";
-  var neltos = readRegister ( params.indexComp2, params.indexElem2 );
-  for (var i = 0; (i < neltos) && (i < keystroke.length); i++) {
+  let value = "";
+  let neltos = readRegister ( params.indexComp2, params.indexElem2 );
+  for (let i = 0; (i < neltos) && (i < keystroke.length); i++) {
     value = value + keystroke.charAt(i);
   }
 
-  var neltos = readRegister ( params.indexComp, params.indexElem );
+  neltos = readRegister ( params.indexComp, params.indexElem );
   writeMemory(value, parseInt(neltos), "string") ;
 
   return value ;

@@ -21,34 +21,6 @@
 
 
 /********************
- * Global variables *
- ********************/
-
-var word_size_bits  = 32 ;
-    // TODO: load from architecture
-
-var word_size_bytes = word_size_bits / 8 ;
-    // TODO: load from architecture
-
-var register_size_bits = 32 ; 
-
-var main_memory = [] ;
-    //  [
-    //    addr: { addr: addr, bin: "00", def_bin: "00", tag: null, data_type: ref <main_memory_datatypes>, reset: true, break: false },
-    //    ...
-    //  ]
-
-var main_memory_datatypes = {} ;
-    //  {
-    //    addr: { address: addr, "type": type, "address": addr, "value": value, "default": "00", "size": 0 },
-    //    ...
-    //  }
-
-var memory_hash = [ "data_memory", "instructions_memory", "stack_memory" ] ;
-    // main segments
-
-
-/********************
  * Internal API     *
  ********************/
 
@@ -155,13 +127,6 @@ function main_memory_write ( addr, value )
 
 function main_memory_zerofill ( addr, size )
 {
-        //Old zerofill version
-        /*for (var i=0; i<size; i++)
-        {
-             var value = main_memory_packs_forav(addr+i, '00') ;
-             main_memory_write(addr+i, value) ;
-        }*/
-
         var base = {
                addr: 0,
                bin: '00',
@@ -176,13 +141,6 @@ function main_memory_zerofill ( addr, size )
         var value = Array(size).fill(base).map( (x,i) => { return {...x, addr: addr+i};}  ) ;
 
         main_memory.splice(addr, size, ...value);
-}
-
-function main_memory_update_associated_datatype ( addr, value, datatype )
-{
-        var value = main_memory_read(addr) ;
-        value.main_memory_datatypes = datatype ;
-        main_memory[addr] = value ;
 }
 
 
@@ -296,10 +254,11 @@ function main_memory_read_bydatatype ( addr, type )
 
           case 'c':
           case 'cu':
-          case 'char':
+          case 'char':{ 
                let ch = main_memory_read_value(addr);
                ret = String.fromCharCode(Number(BigInt("0x" + ch)));
-               break;
+               break;  
+          }
 
           case 'asciiz':
           case 'string':
@@ -339,7 +298,7 @@ function main_memory_datatypes_update_or_create ( addr, value_human, size, type 
         var addr_i ;
 
         // get main-memory entry for the associated byte at addr
-        var data = main_memory_read(addr) ;
+        let data = main_memory_read(addr) ;
 
         // get associated datatype to this main-memory entry
         var data_type = data.data_type ;
@@ -355,7 +314,7 @@ function main_memory_datatypes_update_or_create ( addr, value_human, size, type 
         }
 
         // update main-memory referencies...
-        var data = null ;
+        data = null ;
         for (var i=0n; i<BigInt(size); i++)
         {
              data = main_memory_read(BigInt(addr) + i) ;
@@ -369,6 +328,7 @@ function main_memory_write_bydatatype ( addr, value, type, value_human )
 {
         var ret  = 0x0 ;
         var size = 0 ;
+        let convertedValue;
 
         // store byte to byte...
         switch (type)
@@ -376,8 +336,8 @@ function main_memory_write_bydatatype ( addr, value, type, value_human )
                 case 'b':
                 case 'byte':
                      size = 1 ;
-                     var value2 = creator_memory_value_by_type(value, 'bu') ;
-                     ret = main_memory_write_nbytes(addr, value2, size, type) ;
+                     convertedValue = creator_memory_value_by_type(value, 'bu') ;
+                     ret = main_memory_write_nbytes(addr, convertedValue, size, type) ;
                      main_memory_datatypes_update_or_create(addr, value_human, size, type);
                      break;
 
@@ -385,8 +345,8 @@ function main_memory_write_bydatatype ( addr, value, type, value_human )
                 case 'half':
                 case 'half_word':
                      size = word_size_bytes / 2 ;
-                     var value2 = creator_memory_value_by_type(value, 'hu') ;
-                     ret = main_memory_write_nbytes(addr, value2, size, type) ;
+                     convertedValue = creator_memory_value_by_type(value, 'hu') ;
+                     ret = main_memory_write_nbytes(addr, convertedValue, size, type) ;
                      main_memory_datatypes_update_or_create(addr, value_human, size, type);
                      break;
 
@@ -395,8 +355,8 @@ function main_memory_write_bydatatype ( addr, value, type, value_human )
                 case 'float':
                 case 'word':
                      size = word_size_bytes ;
-                     var value2 = creator_memory_value_by_type(value, 'wu') ;
-                     ret = main_memory_write_nbytes(addr, value2, size, type) ;
+                     convertedValue = creator_memory_value_by_type(value, 'wu') ;
+                     ret = main_memory_write_nbytes(addr, convertedValue, size, type) ;
                      main_memory_datatypes_update_or_create(addr, value_human, size, type);
                      break;
 
@@ -431,7 +391,7 @@ function main_memory_write_bydatatype ( addr, value, type, value_human )
                      break;
 
                 case 'space':
-                     for (var i=0; i<parseInt(value); i++) {
+                     for (let i=0; i<parseInt(value); i++) {
                           main_memory_write_nbytes(addr+i, "00", 1, type) ;
                           size++ ;
                      }
@@ -502,7 +462,7 @@ function creator_memory_value_by_type ( val, type )
         if (typeof val === 'string' && !val.startsWith('0x')) {
           val = '0x' + val;
         }
-        var val = BigInt(val) ;
+        val = BigInt(val) ;
         switch (type)
         {
                 case 'b':
@@ -716,7 +676,7 @@ function creator_memory_updaterow ( addr )
     // hex, hex_packed
     var v1 = {} ;
     elto.hex_packed = '' ;
-    for (var i=0; i<word_size_bytes; i++)
+    for (let i=0; i<word_size_bytes; i++)
     {
          v1 = main_memory_read(addr_base + i) ;
 
@@ -732,7 +692,7 @@ function creator_memory_updaterow ( addr )
     // value, size and eye
     elto.value = '' ;
     elto.size  = 0 ;
-    for (var i=0; i<word_size_bytes; i++)
+    for (let i=0; i<word_size_bytes; i++)
     {
          if (typeof main_memory_datatypes[addr_base+i] == "undefined") {
              continue ;

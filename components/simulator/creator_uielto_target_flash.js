@@ -238,13 +238,12 @@
                       //Download driver
                       download_driver()
                       {
-                        var link = document.createElement("a");
+                        let link = document.createElement("a");
                         link.download = "driver.zip";
                         link.href = (window.location.href.split('?')[0]).split('#')[0] + "/gateway/" + this.target_board + ".zip";
                         document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);
-                        delete link;
 
                         //Google Analytics
                         creator_ga('simulator', 'simulator.download_driver', 'simulator.download_driver');

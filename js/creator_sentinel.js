@@ -1,4 +1,3 @@
-
 /*
  *  Copyright 2018-2025 Felix Garcia Carballeira, Diego Camarmas Alonso, Alejandro Calderon Mateos
  *
@@ -220,9 +219,9 @@ function creator_callstack_leave()
     //Check state
     if (ret.ok)
     {
-        for (var i = 0; i < architecture.components.length; i++)
+        for (let i = 0; i < architecture.components.length; i++)
         {
-            for (var j = 0; j < architecture.components[i].elements.length; j++)
+            for (let j = 0; j < architecture.components[i].elements.length; j++)
             {
                 creator_callstack_do_transition("end", i, j, null);
 
@@ -230,7 +229,7 @@ function creator_callstack_leave()
 
                 /////////////////////////// TEMPORAL SOLUTION ///////////////////////////////////////////////////////////////////
                 //last_index_write = last_elto.register_address_write[i][j].length -1;
-                last_index_read = last_elto.register_address_read[i][j].length -1;
+                const last_index_read = last_elto.register_address_read[i][j].length -1;
 
                 if ( (last_elto.register_address_write[i][j][0] == last_elto.register_address_read[i][j][last_index_read]) &&
                      (last_elto.register_sm[i][j] === 45) &&
@@ -257,12 +256,12 @@ function creator_callstack_leave()
     //Check address
     if (ret.ok)
     {
-        for (var i = 0; i < architecture.components.length; i++)
+        for (let i = 0; i < architecture.components.length; i++)
         {
-            for (var j = 0; j < architecture.components[i].elements.length; j++)
+            for (let j = 0; j < architecture.components[i].elements.length; j++)
             {
                 //last_index_write = last_elto.register_address_write[i][j].length -1;
-                last_index_read = last_elto.register_address_read[i][j].length -1;
+                const last_index_read = last_elto.register_address_read[i][j].length -1;
 
                 if ( (last_elto.register_address_write[i][j][0] != last_elto.register_address_read[i][j][last_index_read]) &&
                      (architecture.components[i].elements[j].properties.includes("saved")) // ...but should be saved
@@ -279,12 +278,12 @@ function creator_callstack_leave()
     //Check size
     if (ret.ok)
     {
-        for (var i = 0; i < architecture.components.length; i++)
+        for (let i = 0; i < architecture.components.length; i++)
         {
-            for (var j = 0; j < architecture.components[i].elements.length; j++)
+            for (let j = 0; j < architecture.components[i].elements.length; j++)
             {
                 //last_index_write = last_elto.register_size_write[i][j].length -1;
-                last_index_read = last_elto.register_size_read[i][j].length -1;
+                const last_index_read = last_elto.register_size_read[i][j].length -1;
                 
                 if ( (last_elto.register_size_write[i][j][0] != last_elto.register_size_read[i][j][last_index_read]) &&
                      (architecture.components[i].elements[j].properties.includes("saved")) // ...but should be saved
@@ -372,8 +371,8 @@ function creator_callstack_setState (indexComponent, indexElement, newState)
 {
     var elto = creator_callstack_getTop();
     if (elto.ok === false) {
-        console_log('creator_callstack_setState: ' + elto.msg, "ERROR") ;
-    return '' ;
+        console_log('[STATE] Failed to set state: ' + elto.msg, "ERROR") ;
+        return '' ;
     }
 
     elto.val.register_sm[indexComponent][indexElement] = newState;
@@ -384,8 +383,8 @@ function creator_callstack_getState (indexComponent, indexElement)
 {
     var elto = creator_callstack_getTop();
     if (elto.ok === false) {
-        console_log('creator_callstack_getState: ' + elto.msg, "ERROR") ;
-    return '' ;
+        console_log('[STATE] Failed to get state: ' + elto.msg, "ERROR") ;
+        return '' ;
     }
 
     return elto.val.register_sm[indexComponent][indexElement];
@@ -402,8 +401,8 @@ function creator_callstack_newWrite (indexComponent, indexElement, address, leng
 
     var elto = creator_callstack_getTop();
     if (elto.ok == false) {
-        console_log('creator_callstack_newWrite: ' + elto.msg, "ERROR") ;
-    return '' ;
+        console_log('[WRITE] Failed to record new write operation: ' + elto.msg, "ERROR") ;
+        return '' ;
     }
 
     elto.val.register_address_write[indexComponent][indexElement].push(address);
@@ -418,8 +417,8 @@ function creator_callstack_newRead (indexComponent, indexElement, address, lengt
 {
     var elto = creator_callstack_getTop();
     if (elto.ok == false) {
-        console_log('creator_callstack_newRead: ' + elto.msg) ;
-    return '' ;
+        console_log('[READ] Failed to record new read operation: ' + elto.msg, "ERROR") ;
+        return '' ;
     }
 
     elto.val.register_address_read[indexComponent][indexElement].push(address);
@@ -472,25 +471,25 @@ function creator_callstack_do_transition ( doAction, indexComponent, indexElemen
     var action = doAction ;
     if (doAction == "wm")
     {
-        var elto = creator_callstack_getTop();
+        const elto = creator_callstack_getTop();
         if (elto.ok == false) {
             console_log('creator_callstack_do_transition: ' + elto.msg, "ERROR") ;
             return '' ;
         }
 
-        var equal  = elto.val.register_address_write[indexComponent][indexElement].includes(address); 
+        const equal  = elto.val.register_address_write[indexComponent][indexElement].includes(address); 
         action = (equal) ? "wm==" : "wm!=" ;
     }
 
     if (doAction == "rm")
     {
-        var elto = creator_callstack_getTop();
+        const elto = creator_callstack_getTop();
         if (elto.ok == false) {
             console_log('creator_callstack_do_transition: ' + elto.msg) ;
             return '' ;
         }
 
-        var equal  = elto.val.register_address_write[indexComponent][indexElement].includes(address);
+        const equal  = elto.val.register_address_write[indexComponent][indexElement].includes(address);
         if (equal == false){
             return
         }
@@ -500,7 +499,8 @@ function creator_callstack_do_transition ( doAction, indexComponent, indexElemen
          (typeof(stack_state_transition[state][action]) === "undefined") )
     {
         if (state < 40 || state < 0) {
-            console_log("creator_callstack_do_transition: undefined action" + action + " for state " + state + " (error).", "ERROR") ;
+            console_log("[TRANSITION] Invalid state transition: State=" + state + ", Action=" + action + 
+                       " (Component: " + architecture.components[indexComponent].elements[indexElement].name + ")", "ERROR") ;
         } 
         return ;
     }
@@ -510,8 +510,8 @@ function creator_callstack_do_transition ( doAction, indexComponent, indexElemen
     creator_callstack_setState(indexComponent, indexElement, new_state);
 
     if (action != "end") {
-        console_log("creator_callstack_do_transition [" + architecture.components[indexComponent].elements[indexElement].name +"]: transition from " +
-                    "state '" + state + "'' to state '" + new_state + "' and action '" + action + "' is empty (warning).", "WARN") ;
+        console_log("[TRANSITION] " + architecture.components[indexComponent].elements[indexElement].name + 
+                   ": State " + state + " → " + new_state + " (Action: " + action + ")", "WARN") ;
     }
 }
 

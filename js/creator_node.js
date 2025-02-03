@@ -1,4 +1,3 @@
-
 /*
  *  Copyright 2018-2025 Felix Garcia Carballeira, Diego Camarmas Alonso, Alejandro Calderon Mateos
  *
@@ -19,7 +18,7 @@
  *
  */
 
-const { logger, console_log } = require('./utils/creator_logger');
+import { logger, console_log } from './utils/creator_logger.js';
 
 var creator_debug = false;
 
@@ -202,7 +201,7 @@ function get_state ( )
 
       if (elto_value != elto_dvalue)
       {
-        addr_string = "0x" + parseInt(addrs[i]).toString(16) ;
+        let addr_string = "0x" + parseInt(addrs[i]).toString(16) ;
         elto_string = "0x" + elto_value ;
         ret.msg = ret.msg + "memory[" + addr_string + "]" + ":" + elto_string + "; ";
       }
@@ -225,14 +224,14 @@ function compare_states ( ref_state, alt_state )
                 'msg':    ''
               } ;
 
-    ref_state_arr = ref_state.split('\n')
+    let ref_state_arr = ref_state.split('\n')
       .map(function(s) { return s.replace(/^\s*|\s*$/g, ""); })
       .filter(function(x) { return x; });
     if (ref_state_arr.length > 0)
          ref_state = ref_state_arr[ref_state_arr.length-1];
     else ref_state = '' ;
 
-    alt_state_arr = alt_state.split('\n')
+    let alt_state_arr = alt_state.split('\n')
       .map(function(s) { return s.replace(/^\s*|\s*$/g, ""); })
       .filter(function(x) { return x; });
     if (alt_state_arr.length > 0)
@@ -337,16 +336,14 @@ function help_pseudoins ( )
 // Module interface
 //
 
-module.exports.load_architecture = load_architecture ;
-module.exports.load_library      = load_library ;
-
-module.exports.assembly_compile  = assembly_compile ;
-module.exports.execute_program   = execute_program ;
-
-module.exports.get_state         = get_state ;
-module.exports.compare_states    = compare_states ;
-
-module.exports.help_instructions = help_instructions ;
-module.exports.help_pseudoins    = help_pseudoins ;
-
-module.exports.set_debug = set_debug;
+export {
+    load_architecture,
+    load_library,
+    assembly_compile,
+    execute_program,
+    get_state,
+    compare_states,
+    help_instructions,
+    help_pseudoins,
+    set_debug
+};

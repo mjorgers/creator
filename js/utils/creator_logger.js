@@ -1,25 +1,19 @@
 'use strict';
-/**
- * @enum {number}
- */
-const LOG_LEVELS = {
+
+export const LOG_LEVELS = {
     ERROR: 0,
     WARN: 1,
     INFO: 2,
     DEBUG: 3
-};
+} ;
 
-/**
- * @enum {string}
- */
-const COLORS = {
+export const COLORS = {
     ERROR: '\x1b[31m', // red
     WARN: '\x1b[33m',  // yellow
     INFO: '\x1b[36m',  // cyan
     DEBUG: '\x1b[90m', // gray
     RESET: '\x1b[0m'   // reset
-};
-
+} ;
 
 class Logger {
     static LOG_LEVELS = LOG_LEVELS;
@@ -103,11 +97,7 @@ class Logger {
 // Create singleton instance
 const logger = new Logger();
 
-/**
- * @param {string} msg
- * @param {keyof typeof LOG_LEVELS} [level='INFO']
- */
-const console_log = (msg, level = 'INFO') => {
+export const console_log = (msg, level = 'INFO') => {
     // This is a simple wrapper around the logger class
     // needed to maintain compatibility with the original
     // console_log function.
@@ -119,10 +109,7 @@ const console_log = (msg, level = 'INFO') => {
     }
 };
 
-module.exports = {
+export {
     Logger,
-    logger,
-    console_log,
-    LOG_LEVELS,
-    COLORS
+    logger
 };

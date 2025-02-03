@@ -1,37 +1,37 @@
 'use strict';
-//
-// Import
-//
-require('source-map-support').install();
 
-// filesystem
-var fs = require('fs');
-var path = require('path');
+import sourceMapSupport from 'source-map-support';
+sourceMapSupport.install();
+
+import fs from 'fs';
+import path from 'path';
+import colors from 'colors';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
 // creator
-var creator = require('./js/min.creator_node.js');
-var creator_version = JSON.parse(fs.readFileSync(__dirname + '/package.json', 'utf8')).version;
+import * as creator from './js/min.creator_node.js';
+const creator_version = JSON.parse(fs.readFileSync(new URL('./package.json', import.meta.url), 'utf8')).version;
 
 // color
-var color_theme = {
+const color_theme = {
     info: 'bgGreen',
     help: 'green',
     warn: 'yellow',
     success: 'cyan',
     error: 'bgRed'
 };
-var gray_theme = {
+const gray_theme = {
     info: 'white',
     help: 'gray',
     warn: 'white',
     success: 'white',
     error: 'brightWhite'
 };
-var colors = require('colors');
 colors.setTheme(color_theme);
 
 // arguments
-var argv = require('yargs')
+const argv = yargs(hideBin(process.argv))
     .usage(welcome() + '\n' +
         'Usage: $0 -a <file name> -s <file name>\n' +
         'Usage: $0 -h')
@@ -120,8 +120,8 @@ try {
         colors.setTheme(color_theme);
     }
 
-    var limit_n_ins = parseInt(argv.maxins);
-    var output_format = argv.output.toUpperCase();
+    const limit_n_ins = parseInt(argv.maxins);
+    const output_format = argv.output.toUpperCase();
 
     // work: a) help and usage
     if ((argv.a != "") && (argv.describe != "")) {
@@ -138,35 +138,35 @@ try {
 
     // work: welcome
     if (output_format == "NORMAL") {
-        var msg = welcome();
+        const msg = welcome();
         console.log(msg.success);
     }
 
     // work: b) list assembly files
-    var file_names = [];
+    const file_names = [];
     if (argv.assembly !== '') {
         file_names.push(argv.assembly);
     }
 
     if (argv.directory !== '') {
-        files = fs.readdirSync(argv.directory);
+        let files = fs.readdirSync(argv.directory);
         files.forEach(function (file) {
             file_names.push(argv.directory + '/' + file);
         });
     }
 
     // work: b) commands and switches
-    var hdr = '';
-    var stage = '';
-    var ret = null;
-    for (var i = 0; i < file_names.length; i++) {
+    let hdr = '';
+    let stage = '';
+    let ret = null;
+    for (let i = 0; i < file_names.length; i++) {
         hdr = 'FileName';
         show_result(output_format, file_names[i], file_names[i], '', true);
 
         ret = one_file(argv.architecture, argv.library, file_names[i], limit_n_ins, argv.result);
 
         // info: show possible errors
-        for (var j = 0; j < ret.stages.length; j++) {
+        for (let j = 0; j < ret.stages.length; j++) {
             stage = ret.stages[j];
             hdr = hdr + ',\t' + stage;
 
@@ -208,6 +208,10 @@ catch (e) {
 // Functions
 //
 
+/**
+ * Displays the welcome message with version information
+ * @returns {string} The formatted welcome message
+ */
 function welcome() {
     return '\n' +
         'CREATOR\n'.help +
@@ -216,6 +220,10 @@ function welcome() {
         'website: https://creatorsim.github.io/\n'.help;
 }
 
+/**
+ * Shows usage information for the CLI
+ * @returns {string} The usage help text
+ */
 function help_usage() {
     return 'Usage:\n' +
         ' * To compile and execute an assembly file on an architecture:\n' +
@@ -235,17 +243,24 @@ function help_usage() {
         '   ./creator.sh -h\n';
 }
 
+/**
+ * Provides detailed description of instructions or pseudo-instructions
+ * @param {Object} argv - The command line arguments object
+ * @param {string} argv.architecture - Path to architecture file
+ * @param {string} argv.describe - Type of description requested
+ * @returns {string} Description of instructions or pseudo-instructions
+ */
 function help_describe(argv) {
     // load architecture
     try {
-        let architecture = fs.readFileSync(argv.architecture, 'utf8');
-        ret = creator.load_architecture(architecture);
+        const architecture = fs.readFileSync(argv.architecture, 'utf8');
+        let ret = creator.load_architecture(architecture);
         if (ret.status !== "ok") {
             throw ret.errorcode;
         }
     }
     catch (e) {
-        var msg = '\n' + e.toString();
+        let msg = '\n' + e.toString();
         msg = msg.split("\n").join("\n[Architecture] ");
         console.log(msg);
         process.exit(-1);
@@ -263,6 +278,14 @@ function help_describe(argv) {
     return o;
 }
 
+/**
+ * Displays execution results in various formats
+ * @param {string} output_format - Output format (NORMAL|MIN|TAB|PRETTY)
+ * @param {string} stage - Current execution stage
+ * @param {string} status - Status of the operation (ok|ko)
+ * @param {string} msg - Message to display
+ * @param {boolean} show_in_min - Whether to show in minimal output mode
+ */
 function show_result(output_format, stage, status, msg, show_in_min) {
     switch (output_format) {
         case "NORMAL":
@@ -297,10 +320,25 @@ function show_result(output_format, stage, status, msg, show_in_min) {
     }
 }
 
+/**
+ * Processes a single assembly file through all stages
+ * @param {string} argv_architecture - Path to architecture file
+ * @param {string} argv_library - Path to library file
+ * @param {string} argv_assembly - Path to assembly file
+ * @param {number} limit_n_ins - Maximum number of instructions to execute
+ * @param {string} argv_result - Path to result file for comparison
+ * @returns {Object} Result object containing status of all stages
+ * @returns {Object} result.Architecture - Architecture loading results
+ * @returns {Object} result.Library - Library loading results
+ * @returns {Object} result.Compile - Compilation results
+ * @returns {Object} result.Execute - Execution results
+ * @returns {Object} result.LastState - Final state comparison results
+ * @returns {string[]} result.stages - Array of stage names
+ */
 function one_file(argv_architecture, argv_library, argv_assembly, limit_n_ins, argv_result) {
-    var msg1 = '';
-    var ret = null;
-    var ret1 = {
+    let msg1 = '';
+    let ret = null;
+    const ret1 = {
         'Architecture': { 'status': 'ko', 'msg': 'Not loaded' },
         'Library': { 'status': 'ok', 'msg': 'Without library' },
         'Compile': { 'status': 'ko', 'msg': 'Not compiled' },
@@ -311,7 +349,7 @@ function one_file(argv_architecture, argv_library, argv_assembly, limit_n_ins, a
 
     // (a) load architecture
     try {
-        let architecture = fs.readFileSync(argv_architecture, 'utf8');
+        const architecture = fs.readFileSync(argv_architecture, 'utf8');
         ret = creator.load_architecture(architecture);
         if (ret.status !== "ok") {
             throw ret.errorcode;
@@ -327,7 +365,7 @@ function one_file(argv_architecture, argv_library, argv_assembly, limit_n_ins, a
     // (b) link
     if (argv_library !== '') {
         try {
-            var library = fs.readFileSync(argv_library, 'utf8');
+            const library = fs.readFileSync(argv_library, 'utf8');
             ret = creator.load_library(library);
             if (ret.status !== "ok") {
                 throw ret.msg;
@@ -343,8 +381,8 @@ function one_file(argv_architecture, argv_library, argv_assembly, limit_n_ins, a
 
     // (c) compile
     try {
-        let architecture = fs.readFileSync(argv_architecture, 'utf8');
-        var assembly = fs.readFileSync(argv_assembly, 'utf8');
+        const architecture = fs.readFileSync(argv_architecture, 'utf8');
+        const assembly = fs.readFileSync(argv_assembly, 'utf8');
         ret = creator.assembly_compile(assembly);
         if (ret.status !== "ok") {
             msg1 = "\nError at line " + (ret.line + 1);
@@ -378,7 +416,7 @@ function one_file(argv_architecture, argv_library, argv_assembly, limit_n_ins, a
 
     // (e) compare results
     if (argv_result !== '') {
-        var result = fs.readFileSync(argv_result, 'utf8');
+        const result = fs.readFileSync(argv_result, 'utf8');
         ret = creator.get_state();
         ret = creator.compare_states(result, ret.msg);
 

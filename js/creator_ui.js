@@ -23,9 +23,7 @@
   function show_notification ( msg, type )
   {
      // show notification
-     var alertMessage = msg ;
-     var type         = type ;
-     app.$bvToast.toast(alertMessage, {
+     app.$bvToast.toast(msg, {
         variant: type,
         solid: true,
         toaster: "b-toaster-top-center",
@@ -35,7 +33,7 @@
 
      // add notification to the notification summary
      var date = new Date() ;
-     notifications.push({ mess: alertMessage,
+     notifications.push({ mess: msg,
                           color: type,
                           time: date.getHours()+":"+date.getMinutes()+":"+date.getSeconds(),
                           date: date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear() }) ;

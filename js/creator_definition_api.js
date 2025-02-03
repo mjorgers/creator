@@ -38,8 +38,8 @@ function capi_raise ( msg )
 
 function capi_arithmetic_overflow ( op1, op2, res_u )
 {
-	op1_u = capi_uint2int(op1) ;
-	op2_u = capi_uint2int(op2) ;
+	let op1_u = capi_uint2int(op1) ;
+	let op2_u = capi_uint2int(op2) ;
 	res_u = capi_uint2int(res_u) ;
 
 	return ((op1_u > 0) && (op2_u > 0) && (res_u < 0)) || 
@@ -48,7 +48,7 @@ function capi_arithmetic_overflow ( op1, op2, res_u )
 
 function capi_bad_align ( addr, type )
 {
-	size = creator_memory_type2size(type) ;
+	let size = creator_memory_type2size(type) ;
 	return (addr % size !== 0n) ; // && (architecture.properties.memory_align == true) ; <- FUTURE-WORK
 }
 
@@ -183,10 +183,6 @@ function capi_print_int ( value1 )
 
 	/* Print integer */
 	var value   = readRegister(ret1.indexComp, ret1.indexElem);
-	var val_int = parseInt(value.toString()) >> 0 ;
-
-
-	var value = readRegister(ret1.indexComp, ret1.indexElem);
 	var val_int = parseInt(value.toString()) >> 0 ;
 
 	display_print(full_print(val_int, null, false));
