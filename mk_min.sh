@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Start timing
+start_time=$(date +%s.%N)
+
 # welcome
 echo ""
 echo "  CREATOR packer"
@@ -94,12 +97,12 @@ cat js/globals.js \
     \
     js/creator_ui.js \
     js/app.js > js/creator_web.js
-terser -o js/min.creator_web.js js/creator_web.js
+npx terser -o js/min.creator_web.js js/creator_web.js
 rm -fr js/creator_web.js
 
 
 echo "  * min.creator_node.js..."
-terser \
+npx terser \
   js/globals.js \
   js/creator_bigint.js \
   js/creator_ga.js \
@@ -130,6 +133,13 @@ cat \
   js/creator_executor.js \
   js/creator_node.js \
   > js/debug.creator_node.js
+
+# Calculate duration
+end_time=$(date +%s.%N)
+duration=$(echo "$end_time - $start_time" | bc)
+
+echo "  Build completed in ${duration} seconds."
+echo ""
 
 # the end
 echo ""

@@ -1,0 +1,74 @@
+[
+  {
+    "name": "Program 1",
+    "config": {
+      "name": "Program 1",
+      "architecture": "./architecture/RISC_V_RV32IMFD.json",
+      "assembly": "./test/riscv/correct/examples/test_riscv_example_008.s"
+    },
+    "result": {
+      "Architecture": {
+        "status": "ok",
+        "msg": "Architecture '' loaded successfully."
+      },
+      "Library": {
+        "status": "ok",
+        "msg": "Without library"
+      },
+      "Compile": {
+        "status": "ok",
+        "msg": "Code '' compiled successfully."
+      },
+      "Execute": {
+        "status": "ok",
+        "msg": "Executed successfully."
+      },
+      "LastState": {
+        "status": "ko",
+        "msg": "Not equals states"
+      },
+      "stages": [
+        "Architecture",
+        "Library",
+        "Compile",
+        "Execute"
+      ]
+    }
+  },
+  {
+    "name": "Program 1",
+    "config": {
+      "name": "Program 1",
+      "architecture": "./architecture/RISC_V_RV32IMFD.json",
+      "assembly": "./test/riscv/correct/examples/test_riscv_example_008.s"
+    },
+    "result": {
+      "Architecture": {
+        "status": "ok",
+        "msg": "Architecture '' loaded successfully."
+      },
+      "Library": {
+        "status": "ok",
+        "msg": "Without library"
+      },
+      "Compile": {
+        "status": "ko",
+        "msg": "\nError at line 1 (Please enter the assembly code before compiling):\nPlease enter the assembly code before compiling\n\n->1 \n  2 #\n"
+      },
+      "Execute": {
+        "status": "ko",
+        "msg": "Not executed"
+      },
+      "LastState": {
+        "status": "ko",
+        "msg": "Not equals states"
+      },
+      "stages": [
+        "Architecture",
+        "Library",
+        "Compile",
+        "Execute"
+      ]
+    }
+  }
+]

@@ -127,7 +127,7 @@
                     }
 
                     //Read architecture JSON
-                    for (i = 0; i < load_architectures.length; i++)
+                    for (let i = 0; i < load_architectures.length; i++)
                     {
                       if (e.name == load_architectures[i].id)
                       {
@@ -182,7 +182,7 @@
 
                     //Generate architecture hash table
                     architecture_hash = [];
-                    for (i = 0; i < architecture.components.length; i++)
+                    for (let i = 0; i < architecture.components.length; i++)
                     {
                       architecture_hash.push({name: architecture.components[i].name, index: i});
                       app._data.architecture_hash = architecture_hash; 
@@ -208,7 +208,7 @@
                     app._data.render++; //Forces vue to reload a component, similar to $forceUpdate()
 
                     //Save current architecture into cache
-                    var aux_object = jQuery.extend(true, {}, architecture);
+                    var aux_object = structuredClone(architecture);
                     var aux_architecture = register_value_serialize(aux_object);
                     var aux_arch = JSON.stringify(aux_architecture, null, 2);
                   },

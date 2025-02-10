@@ -19,6 +19,44 @@
  *
  */
 
+  //Codemirror
+  function assembly_codemirror_start(){
+    var editor_cfg = {
+      lineNumbers: true,
+      autoRefresh:true
+    };
+
+    var textarea_assembly_obj = document.getElementById("textarea_assembly");
+
+    if (textarea_assembly_obj != null) {
+      textarea_assembly_editor = CodeMirror.fromTextArea(textarea_assembly_obj, editor_cfg);
+      textarea_assembly_editor.setOption('keyMap', 'sublime') ; // vim -> 'vim', 'emacs', 'sublime', ...
+      textarea_assembly_editor.setValue(app._data.assembly_code);
+      textarea_assembly_editor.setSize("auto", "70vh");
+
+      // add Ctrl-m
+      var map = {
+        'Ctrl-M': function(cm) { cm.execCommand('toggleComment'); }
+      } ;
+      textarea_assembly_editor.addKeyMap(map);
+    }
+  }
+
+  function architecture_codemirror_start(){
+    var editor_cfg = {
+      lineNumbers: true,
+      autoRefresh:true
+    };
+
+    var textarea_arch_obj = document.getElementById("textarea_architecture");
+
+    if (textarea_arch_obj != null) {
+      textarea_arch_editor = CodeMirror.fromTextArea(textarea_arch_obj, editor_cfg);
+      textarea_arch_editor.setOption('keyMap', 'sublime') ; // vim -> 'vim', 'emacs', 'sublime', ...
+      textarea_arch_editor.setValue(app._data.arch_code);
+      textarea_arch_editor.setSize("auto", "70vh");
+    }
+  }
 
   /* jshint esversion: 6 */
 
@@ -147,7 +185,7 @@
                             //Save a backup in the cache memory
                             if (typeof(Storage) !== "undefined")
                             {
-                              var aux_object = jQuery.extend(true, {}, architecture);
+                              var aux_object = structuredClone(architecture);
                               var aux_architecture = register_value_serialize(aux_object);
                               var aux_arch = JSON.stringify(aux_architecture, null, 2);
 
@@ -246,19 +284,19 @@
                             return ;
                         }
 
-                        for (var i=0; i<ret.draw.space.length; i++) {
+                        for (let i=0; i<ret.draw.space.length; i++) {
                           instructions[ret.draw.space[i]]._rowVariant = '';
                         }
-                        for (var i=0; i<ret.draw.success.length; i++) {
+                        for (let i=0; i<ret.draw.success.length; i++) {
                           instructions[ret.draw.success[i]]._rowVariant = 'success';
                         }
-                        for (var i=0; i<ret.draw.info.length; i++) {
+                        for (let i=0; i<ret.draw.info.length; i++) {
                           instructions[ret.draw.info[i]]._rowVariant = 'info';
                         }
-                        for (var i=0; i<ret.draw.warning.length; i++) {
+                        for (let i=0; i<ret.draw.warning.length; i++) {
                           instructions[ret.draw.warning[i]]._rowVariant = 'warning';
                         }
-                        for (var i=0; i<ret.draw.danger.length; i++) {
+                        for (let i=0; i<ret.draw.danger.length; i++) {
                           instructions[ret.draw.danger[i]]._rowVariant = 'danger';
                         }
 
@@ -319,7 +357,7 @@
                         draw.info = [];
 
                         // UI: set default row color...
-                        for (var i = 0; i < instructions.length; i++) 
+                        for (let i = 0; i < instructions.length; i++) 
                         {
                           if (instructions[i].Label == "main") {
                             draw.success.push(i);

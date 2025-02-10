@@ -428,46 +428,6 @@ return {
     document.body.removeChild(event.target);
   }
 
-
-  //Codemirror
-  function assembly_codemirror_start(){
-    var editor_cfg = {
-      lineNumbers: true,
-      autoRefresh:true
-    };
-
-    var textarea_assembly_obj = document.getElementById("textarea_assembly");
-
-    if (textarea_assembly_obj != null) {
-      textarea_assembly_editor = CodeMirror.fromTextArea(textarea_assembly_obj, editor_cfg);
-      textarea_assembly_editor.setOption('keyMap', 'sublime') ; // vim -> 'vim', 'emacs', 'sublime', ...
-      textarea_assembly_editor.setValue(app._data.assembly_code);
-      textarea_assembly_editor.setSize("auto", "70vh");
-
-      // add Ctrl-m
-      var map = {
-        'Ctrl-M': function(cm) { cm.execCommand('toggleComment'); }
-      } ;
-      textarea_assembly_editor.addKeyMap(map);
-    }
-  }
-
-  function architecture_codemirror_start(){
-    var editor_cfg = {
-      lineNumbers: true,
-      autoRefresh:true
-    };
-
-    var textarea_arch_obj = document.getElementById("textarea_architecture");
-
-    if (textarea_arch_obj != null) {
-      textarea_arch_editor = CodeMirror.fromTextArea(textarea_arch_obj, editor_cfg);
-      textarea_arch_editor.setOption('keyMap', 'sublime') ; // vim -> 'vim', 'emacs', 'sublime', ...
-      textarea_arch_editor.setValue(app._data.arch_code);
-      textarea_arch_editor.setSize("auto", "70vh");
-    }
-  }
-
 }
 catch(e)
 {

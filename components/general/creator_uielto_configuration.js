@@ -37,11 +37,11 @@
 
     data:       function () {
                   return {
-                    architectures = [
-                                      { text: 'None',  value: 'none' },
-                                      { text: 'RISC-V (RV32IMFD)',  value: 'RISC-V (RV32IMFD)' },
-                                      { text: 'MIPS-32',            value: 'MIPS-32' },
-                                    ]
+                    architectures: [
+                      { text: 'None', value: 'none' },
+                      { text: 'RISC-V (RV32IMFD)', value: 'RISC-V (RV32IMFD)' },
+                      { text: 'MIPS-32', value: 'MIPS-32' },
+                    ]
 
                   }
                 },

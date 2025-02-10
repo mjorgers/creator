@@ -40,33 +40,32 @@
                         //
                         //Remote Device
                         //
-
-                        remote_target_boards =  [
-                                                  { text: 'Please select an option', value: "", disabled: true },
-                                                  { text: 'ESP32-C2 (RISC-V)',       value: 'esp32c2' },
-                                                  { text: 'ESP32-C3 (RISC-V)',       value: 'esp32c3' },
-                                                  { text: 'ESP32-H2 (RISC-V)',       value: 'esp32h2' },
-                                                //{ text: 'ESP32-S2 (MIPS-32)',      value: 'esp32s2' },
-                                                //{ text: 'ESP32-S3 (MIPS-32)',      value: 'esp32s3' },
-                                                ],
+                        remote_target_boards: [
+                          { text: 'Please select an option', value: "", disabled: true },
+                          { text: 'ESP32-C2 (RISC-V)', value: 'esp32c2' },
+                          { text: 'ESP32-C3 (RISC-V)', value: 'esp32c3' },
+                          { text: 'ESP32-H2 (RISC-V)', value: 'esp32h2' },
+                          //{ text: 'ESP32-S2 (MIPS-32)',      value: 'esp32s2' },
+                          //{ text: 'ESP32-S3 (MIPS-32)',      value: 'esp32s3' },
+                        ],
 
                         /*
                         lab_url = "",
                         */
 
-                        request_id = -1,
-                        position = "",
+                        request_id: -1,
+                        position: "",
 
-                        boards  = false,
-                        enqueue = false,
-                        status  = false,
+                        boards  : false,
+                        enqueue : false,
+                        status  : false,
 
 
                         //
                         //Local Device
                         //
 
-                        target_boards = [
+                        target_boards : [
                                           { text: 'Please select an option', value: "", disabled: true },
                                           { text: 'ESP32-C2 (RISC-V)',       value: 'esp32c2' },
                                           { text: 'ESP32-C3 (RISC-V)',       value: 'esp32c3' },
@@ -83,8 +82,8 @@
                         flash_url     = "http://localhost:8080",
                         */
 
-                        flashing = false,
-                        running  = false,
+                        flashing : false,
+                        running  : false,
                       }
                     },
 

@@ -1,16 +1,14 @@
 'use strict';
 
-import sourceMapSupport from 'source-map-support';
-sourceMapSupport.install();
+
 
 import fs from 'fs';
-import path from 'path';
 import colors from 'colors';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
 // creator
-import * as creator from './js/min.creator_node.js';
+import * as creator from './src/core.js';
 const creator_version = JSON.parse(fs.readFileSync(new URL('./package.json', import.meta.url), 'utf8')).version;
 
 // color
@@ -101,7 +99,20 @@ const argv = yargs(hideBin(process.argv))
         describe: 'Colored output',
         default: false
     })
-    .demandOption(['architecture', 'assembly'], 'Please provide both architecture and assembly files.')
+    .option('config', {
+        alias: 'c',
+        type: 'string',
+        describe: 'JSON configuration file containing multiple run configurations',
+        nargs: 1,
+        default: ''
+    })
+    .option('json-output', {
+        type: 'string',
+        describe: 'Output file for JSON results',
+        nargs: 1,
+        default: ''
+    })
+    .demandOption([], 'Please provide either a config file or both architecture and assembly files.')
     .help('h')
     .alias('h', 'help')
     .argv;
@@ -122,6 +133,19 @@ try {
 
     const limit_n_ins = parseInt(argv.maxins);
     const output_format = argv.output.toUpperCase();
+
+    // Handle JSON configuration file
+    if (argv.config) {
+        const results = execute_configurations(argv.config, limit_n_ins);
+        console.log(results)
+        if (argv.jsonOutput) {
+            fs.writeFileSync(argv.jsonOutput, JSON.stringify(results, null, 2));
+        }
+        if (output_format === 'NORMAL') {
+            console.log(JSON.stringify(results, null, 2));
+        }
+        process.exit(0);
+    }
 
     // work: a) help and usage
     if ((argv.a != "") && (argv.describe != "")) {
@@ -429,5 +453,48 @@ function one_file(argv_architecture, argv_library, argv_assembly, limit_n_ins, a
 
     // the end
     return ret1;
+}
+
+/**
+ * Reads and executes multiple configurations from a JSON file
+ * @param {string} config_file - Path to JSON configuration file
+ * @param {number} default_limit_n_ins - Default instruction limit
+ * @returns {Object[]} Array of execution results
+ */
+function execute_configurations(config_file, default_limit_n_ins) {
+    try {
+        const config = JSON.parse(fs.readFileSync(config_file, 'utf8'));
+        if (!Array.isArray(config)) {
+            throw new Error('Configuration file must contain an array of run configurations');
+        }
+
+        const results = [];
+        for (const run of config) {
+            const required = ['name', 'architecture', 'assembly'];
+            const missing = required.filter(field => !(field in run));
+            if (missing.length > 0) {
+                throw new Error(`Missing required fields: ${missing.join(', ')} in configuration: ${run.name || 'unnamed'}`);
+            }
+
+            const result = {
+                name: run.name,
+                config: run,
+                result: one_file(
+                    run.architecture,
+                    run.library || '',
+                    run.assembly,
+                    run.maxins || default_limit_n_ins,
+                    run.result || ''
+                )
+            };
+            console.log(result)
+            
+        }
+        return results;
+
+    } catch (error) {
+        console.error('Error processing configuration file:', error.message);
+        process.exit(1);
+    }
 }
 

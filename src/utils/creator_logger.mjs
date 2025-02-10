@@ -57,7 +57,7 @@ class Logger {
             for (let i = 1; i < stack.length; i++) {
                 const line = stack[i];
                 // We need to skip internal logger calls
-                if (line.includes('creator_logger.js')) {
+                if (line.includes('creator_logger.mjs')) {
                     continue;
                 }
                 const match = line.match(/\((.+):(\d+):(\d+)\)/) || 

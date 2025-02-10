@@ -82,7 +82,7 @@
 
                     //Generate architecture hash table
                     architecture_hash = [];
-                    for (i = 0; i < architecture.components.length; i++)
+                    for (let i = 0; i < architecture.components.length; i++)
                     {
                       architecture_hash.push({name: architecture.components[i].name, index: i});
                       app._data.architecture_hash = architecture_hash; 

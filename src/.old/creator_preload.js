@@ -201,7 +201,7 @@
 
       // 2.- get parameters
       var parameters = new URL(window_location).searchParams ;
-      for (i=0; i<creator_preload_tasks.length; i++)
+      for (let i=0; i<creator_preload_tasks.length; i++)
       {
         hash_field = creator_preload_tasks[i].name ;
         hash[hash_field] = parameters.get(hash_field) ;

@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Program 1",
+    "architecture": "./architecture/RISC_V_RV32IMFD.json",
+    "assembly": "./test/riscv/correct/examples/test_riscv_example_008.s"
+  },
+  {
+    "name": "Program 2",
+    "architecture": "./architecture/RISC_V_RV32IMFD.json",
+    "assembly": "./test/riscv/correct/examples/test_riscv_example_009.s"
+  }
+]

@@ -539,9 +539,17 @@
       </template>
     </div>
 
-    <!-- Required scripts -->
-    <script>
-      document.write("<script src=\"js/min.creator_web.js\"><\/script>");
-    </script>
-  </body>
+    <!-- Load dependencies first -->
+    <script src="external/bootstrap_vue/polyfill.min.js"></script>
+    <script src="external/bootstrap_vue/vue.min.js"></script>
+    <script src="external/bootstrap_vue/bootstrap-vue.min.js"></script>
+    <script src="external/jquery.min.js"></script>
+    <script src="external/lodash.js"></script>
+
+    <!-- Initialize Vue app -->
+    <script src="js/vue_app.js"></script>
+
+    <!-- Load your module code after Vue is ready -->
+    <script type="module" src="js/min.creator_web.js"></script>
+    </body>
 </html>

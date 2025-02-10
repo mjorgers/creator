@@ -10,9 +10,9 @@ Linker script and memory map
 
                 0x0000000080000000                . = 0x80000000
 
-.text           0x0000000080000000       0x40
+.text           0x0000000080000000       0x24
  *(.text)
- .text          0x0000000080000000       0x40 minimal.o
+ .text          0x0000000080000000       0x24 minimal.o
                 0x0000000080000000                _start
 
 .tohost         0x0000000080001000       0x48

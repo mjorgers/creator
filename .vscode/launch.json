@@ -2,32 +2,20 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "node",
-            "request": "launch",
-            "name": "MiniRISC Creator",
-            "skipFiles": ["<node_internals>/**"],
-            "program": "${workspaceFolder}/creator.js",
-            "args": [
-                "-a", "./architecture/miniRISC.json",
-                "-s", "./test.s",
-                "-o", "normal"
-            ]
-        },
-        {
-            "type": "node",
+            "type": "bun",
             "request": "launch",
             "name": "Debug Creator",
             "skipFiles": [
                 "<node_internals>/**",
-                "**/creator_logger.js"
+                "**/creator_logger.mjs"
             ],
-            "program": "${workspaceFolder}/creator.js",
-            "preLaunchTask": "npm: build",
+            "program": "${workspaceFolder}/creator.mjs",
             "sourceMaps": true,
             "args": [
                 "-a", "./architecture/RISC_V_RV32IMFD.json",
-                "-s", "./test/riscv/correct/examples/test_riscv_example_003.s",
-                "--debug"
+                "-s", "./test/riscv/instructions/test_riscv_instruction_065.s",
+                "--debug",
+                "--output", "pretty"
             ]
         },
         {
@@ -35,22 +23,12 @@
             "request": "launch",
             "name": "LoadBinary",
             "skipFiles": ["<node_internals>/**"],
-            "program": "${workspaceFolder}/creator.js",
+            "program": "${workspaceFolder}/creator.mjs",
+            "preLaunchTask": "bun: build",
             "args": [
                 "-a", "./architecture/miniRISC64.json",
                 "-l", "./test/riscv64/compliant/binary.o",
                 "-s", "./test/riscv64/compliant/loader.s"
-            ]
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "miniRISC64 Creator",
-            "skipFiles": ["<node_internals>/**"],
-            "program": "${workspaceFolder}/creator.js",
-            "args": [
-                "-a", "./architecture/miniRISC64.json",
-                "-s", "./test/riscv64/beq_test.s"
             ]
         }
         

@@ -18,6 +18,12 @@
  *
  */
 
+/**
+ * Converts an integer value to a BigInt with proper register size normalization
+ * @param {number|string} int_value - The integer value to convert
+ * @param {number} int_base - The base of the input number (default: 10)
+ * @returns {BigInt} Normalized unsigned BigInt value
+ */
 function bi_intToBigInt(int_value, int_base) {
   // Convert input to BigInt, respecting the base
   const bigIntValue = BigInt(int_value.toString(int_base || 10));
@@ -32,6 +38,11 @@ function bi_intToBigInt(int_value, int_base) {
   return BigInt.asUintN(register_size_bits, bigIntValue); 
 }
 
+/**
+ * Converts a floating-point number to its BigInt representation
+ * @param {number} float_value - The floating-point value to convert
+ * @returns {BigInt} BigInt representation of the float value
+ */
 function bi_floatToBigInt ( float_value )
 {
   let BigInt_value = null ;
@@ -43,6 +54,11 @@ function bi_floatToBigInt ( float_value )
   return BigInt_value ;
 }
 
+/**
+ * Converts a BigInt back to a floating-point number
+ * @param {BigInt} big_int_value - The BigInt value to convert
+ * @returns {number} Floating-point representation of the BigInt value
+ */
 function bi_BigIntTofloat ( big_int_value )
 {
   let hex = big_int_value.toString(16);
@@ -55,7 +71,11 @@ function bi_BigIntTofloat ( big_int_value )
   return hex2float("0x" + hex);
 }
 
-
+/**
+ * Converts a double-precision floating-point number to BigInt
+ * @param {number} double_value - The double-precision value to convert
+ * @returns {BigInt} BigInt representation of the double value
+ */
 function bi_doubleToBigInt ( double_value )
 {
   let BigInt_value = null ;
@@ -67,6 +87,11 @@ function bi_doubleToBigInt ( double_value )
   return BigInt_value ;
 }
 
+/**
+ * Converts a BigInt back to a double-precision floating-point number
+ * @param {BigInt} big_int_value - The BigInt value to convert
+ * @returns {number} Double-precision floating-point representation of the BigInt value
+ */
 function bi_BigIntTodouble ( big_int_value )
 {
   let hex = (big_int_value.toString(16)).padStart(16, "0");
@@ -74,8 +99,11 @@ function bi_BigIntTodouble ( big_int_value )
   return hex2double("0x" + hex);
 }
 
-
-//String to number/bigint
+/**
+ * Deserializes register values in an architecture from string/number to BigInt
+ * @param {Object} architecture - The architecture object containing components and elements
+ * @returns {Object} Modified architecture with deserialized values
+ */
 function register_value_deserialize( architecture )
 {
   //var architecture = architecture;
@@ -106,12 +134,14 @@ function register_value_deserialize( architecture )
   return architecture;
 }
 
-
-//Number/Bigint to string
+/**
+ * Serializes register values in an architecture from BigInt to string/number
+ * @param {Object} architecture - The architecture object containing components and elements
+ * @returns {Object} New architecture object with serialized values
+ */
 function register_value_serialize( architecture )
 {
-  let aux_architecture = jQuery.extend(true, {}, architecture);
-
+  let aux_architecture = structuredClone(architecture);
   for (let i=0; i<architecture.components.length; i++)
   {
     for (let j=0; j < architecture.components[i].elements.length; j++)

@@ -17,7 +17,7 @@
  *  along with CREATOR.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
+'use strict';
 let architecture_available = [];
 let load_architectures_available = [];
 let load_architectures = [];

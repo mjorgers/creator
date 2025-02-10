@@ -1,7 +1,6 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
 import pluginVue from "eslint-plugin-vue";
-import { console_log } from "./js/utils/creator_logger.js";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [

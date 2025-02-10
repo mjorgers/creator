@@ -1,10 +1,10 @@
 {
-    "debug.javascript.autoAttachFilter": "smart",
+    "debug.javascript.autoAttachFilter": "disabled",
     "debug.javascript.terminalOptions": {
       "skipFiles": [
         "<node_internals>/**",
         "**/node_modules/**",
-        "**/creator_logger.js"
+        "**/creator_logger.mjs"
       ]
     }
   }

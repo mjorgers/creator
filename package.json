@@ -2,11 +2,11 @@
   "name": "creator",
   "description": "Check CREATOR",
   "author": "dcamarma@inf.uc3m.es",
-  "version": "4.1",
   "type": "module",
   "scripts": {
-    "test": "./run_test.sh",
+    "simtest": "python test.py", 
     "build": "python build.py",
+    "preserve": "bun run build",
     "serve": "python -m http.server 8000"
   },
   "dependencies": {
@@ -14,13 +14,29 @@
     "jshint": "^2.13.6",
     "readline-sync": "^1.4.10",
     "source-map-support": "^0.5.21",
-    "terser": "^5.37.0",
+    "terser": "^5.38.0",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "@eslint/js": "^9.19.0",
     "eslint": "^9.19.0",
     "eslint-plugin-vue": "^9.32.0",
     "globals": "^15.14.0"
-  }
+  },
+  "version": "5.0.0",
+  "main": "webpack.config.js",
+  "directories": {
+    "doc": "docs",
+    "example": "examples",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mjorgers/creator.git"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mjorgers/creator/issues"
+  },
+  "homepage": "https://github.com/mjorgers/creator#readme"
 }

@@ -18,7 +18,7 @@
  *
  */
 
-import { logger, console_log } from './utils/creator_logger.js';
+import { logger, console_log } from './utils/creator_logger.mjs';
 
 var creator_debug = false;
 
